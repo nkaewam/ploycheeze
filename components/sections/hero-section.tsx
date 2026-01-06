@@ -2,15 +2,15 @@ import { Separator } from "@/components/ui/separator"
 
 export function HeroSection() {
   return (
-    <section className="flex min-h-screen w-full flex-col items-center justify-center bg-background px-4">
-      <div className="flex flex-col items-center gap-6 md:gap-8">
-        <h1 className="text-center text-5xl font-bold tracking-widest uppercase sm:text-7xl md:text-9xl">
+    <section className="flex min-h-screen w-full flex-col items-start justify-center bg-background px-16 md:px-48">
+      <div className="flex flex-col items-start gap-6 max-w-sm">
+        <h1 className="text-left text-xl md:text-3xl font-medium uppercase">
           Ploycheeze
         </h1>
-        <div className="flex w-full max-w-[200px] flex-col gap-2 sm:max-w-[300px] md:max-w-[400px]">
-          <Separator className="h-[2px] w-full bg-foreground" />
-          <Separator className="h-[2px] w-[90%] self-center bg-foreground" />
-          <Separator className="h-[2px] w-[80%] self-center bg-foreground" />
+        <div className="text-justify text-muted-foreground text-[8px] md:text-[9.5px] leading-relaxed tracking-[0.15em] uppercase opacity-60">
+          <p className="max-w-[40ch]">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
         </div>
       </div>
     </section>
