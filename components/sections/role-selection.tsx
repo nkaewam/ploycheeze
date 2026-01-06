@@ -10,7 +10,7 @@ export function RoleSelection() {
             <br />
             Director
           </h2>
-          <ArrowRight className="h-8 w-8 opacity-100 transition-all duration-300 md:opacity-0 md:group-hover:translate-x-2 md:group-hover:opacity-100" />
+          <ArrowRight className="hidden h-8 w-8 opacity-100 transition-all duration-300 md:opacity-0 md:group-hover:translate-x-2 md:block md:group-hover:opacity-100" />
         </div>
       </div>
 
@@ -21,7 +21,7 @@ export function RoleSelection() {
             <br />
             grapher
           </h2>
-          <ArrowRight className="h-8 w-8 opacity-100 transition-all duration-300 md:opacity-0 md:group-hover:translate-x-2 md:group-hover:opacity-100" />
+          <ArrowRight className="hidden h-8 w-8 opacity-100 transition-all duration-300 md:opacity-0 md:group-hover:translate-x-2 md:block md:group-hover:opacity-100" />
         </div>
       </div>
     </section>
