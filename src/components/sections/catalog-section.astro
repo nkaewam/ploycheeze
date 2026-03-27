@@ -1,0 +1,123 @@
+---
+import { Image } from "astro:assets"
+import standardSkinBg from "@/assets/standard-skin.png"
+
+const works = [
+  {
+    id: 1,
+
+    title: "Standard Skin Clinic",
+    role: "Art Director",
+    image: standardSkinBg,
+  },
+  {
+    id: 2,
+    title: "Standard Skin Clinic",
+    subtitle: "Be your own standard",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 3,
+    title: "Standard Skin Clinic",
+    subtitle: "Be Bold, Be You",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 4,
+    title: "Roller Coaster the series",
+    role: "DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 5,
+    title: "Standard Skin Clinic",
+    subtitle: "Be your own standard",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 6,
+    title: "Standard Skin Clinic",
+    subtitle: "Be your own standard",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 7,
+    title: "Standard Skin Clinic",
+    subtitle: "Be Bold, Be You",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 8,
+    title: "Standard Skin Clinic",
+    subtitle: "Be Bold, Be You",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 9,
+    title: "Standard Skin Clinic",
+    subtitle: "Be your own standard",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 10,
+    title: "Standard Skin Clinic",
+    subtitle: "Be your own standard",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 11,
+    title: "Standard Skin Clinic",
+    subtitle: "Be Bold, Be You",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+  {
+    id: 12,
+    title: "Standard Skin Clinic",
+    subtitle: "Be Bold, Be You",
+    role: "Director / DoP",
+    image: standardSkinBg,
+  },
+]
+---
+
+<section
+  id="catalog"
+  class="relative flex h-screen flex-col bg-white px-16 pt-36 pb-24"
+>
+  <div class="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-12 gap-y-8">
+    {
+      works.map((work) => (
+        <div class="group flex min-h-0 cursor-pointer flex-col justify-center opacity-90 transition-opacity duration-300 hover:opacity-100">
+          <div class="relative mb-4 w-full overflow-hidden bg-gray-100">
+            <Image
+              src={work.image}
+              alt={work.title}
+              class="aspect-2560/1600 w-full object-cover transition-transform duration-500"
+            />
+          </div>
+
+          <div class="flex items-start justify-between text-[11px] font-normal tracking-tight text-neutral-900 sm:text-xs">
+            <div class="flex flex-col">
+              <span class="leading-[1.4]">{work.title}</span>
+              {work.subtitle && (
+                <span class="leading-[1.4]">{work.subtitle}</span>
+              )}
+            </div>
+            <div class="text-right">
+              <span class="leading-[1.4]">{work.role}</span>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
