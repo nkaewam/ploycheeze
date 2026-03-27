@@ -1,79 +1,12 @@
 ---
 import Layout from "@/layouts/main.astro"
-import { Image } from "astro:assets"
-import heroBg from "../assets/hero-bg.png"
-import standardSkinBg from "../assets/standard-skin.png"
-import { Button } from "@/components/ui/button"
+import Navigation from "@/components/navigation.astro"
+import HeroSection from "@/components/sections/hero-section.astro"
+import StandardSkinSection from "@/components/sections/standard-skin-section.astro"
 ---
 
 <Layout>
-  <!-- Sticky Navigation Header -->
-  <div
-    class="pointer-events-none fixed top-0 left-0 z-50 flex w-full items-start justify-between px-8 py-10 text-3xl tracking-tight text-white mix-blend-difference"
-  >
-    <h1 class="pointer-events-auto font-normal">ploycheeze</h1>
-    <button
-      class="pointer-events-auto font-normal transition-opacity hover:opacity-60"
-    >
-      sort by
-    </button>
-  </div>
-  <section class="relative h-screen w-full overflow-hidden text-white/90">
-    <Image
-      src={heroBg}
-      alt="Hero background"
-      class="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
-      priority
-      loading="eager"
-    />
-
-    <!-- Overlay/Content Container -->
-    <div class="relative z-10 flex h-full flex-col px-8 pb-10">
-      <!-- Spacer for potential top navigation if needed inside flex, but we used fixed above -->
-      <div
-        class="pointer-events-none h-20 opacity-0 sm:h-24"
-        aria-hidden="true"
-      >
-      </div>
-
-      <!-- Centered Text Content -->
-      <div
-        class="flex flex-1 items-center justify-center text-white mix-blend-difference"
-      >
-        <div class="max-w-3xl text-center">
-          <p class="text-2xl leading-relaxed font-light tracking-wide">
-            A multidisciplinary visual storyteller
-          </p>
-          <p class="text-2xl leading-relaxed font-light tracking-wide">
-            working across film, photography, and brand imagery.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="relative h-screen">
-    <Image
-      src={standardSkinBg}
-      alt="Standard Skin BG"
-      class="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
-      priority
-      loading="eager"
-    />
-    <div
-      class="relative z-10 flex h-full flex-col justify-end px-8 pb-10 text-2xl font-light text-white"
-    >
-      <div class="flex w-full items-center justify-between">
-        <p class="leading-tight">
-          Standard Skin Clinic <br /> Be your own standard
-        </p>
-        <div>
-          <p>Director / DoP</p>
-          <Button
-            className="w-full rounded-none bg-transparent"
-            variant="outline">see more</Button
-          >
-        </div>
-      </div>
-    </div>
-  </section>
+  <Navigation />
+  <HeroSection />
+  <StandardSkinSection />
 </Layout>

@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets"
+import standardSkinBg from "@/assets/standard-skin.png"
+import { Button } from "@/components/ui/button"
+import CustomCursor from "@/components/custom-cursor.tsx"
+---
+
+<section id="standard-skin" class="relative h-screen">
+  <!-- React version of the custom cursor -->
+  <CustomCursor client:load />
+
+  <Image
+    src={standardSkinBg}
+    alt="Standard Skin BG"
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
+    priority
+    loading="eager"
+  />
+  <div
+    class="relative z-10 flex h-full flex-col justify-end px-8 pb-10 text-2xl font-light text-white"
+  >
+    <div class="flex w-full items-center justify-between">
+      <p class="leading-tight">
+        Standard Skin Clinic <br /> Be your own standard
+      </p>
+      <div>
+        <p>Director / DoP</p>
+        <Button
+          className="w-full rounded-none border-white bg-transparent text-white mix-blend-difference hover:border-[#ea98da] hover:bg-[#ea98da] hover:text-black hover:mix-blend-screen"
+          variant="outline"
+        >
+          see more
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
