@@ -3,10 +3,34 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 
+@font-face {
+  font-family: "Anakotmai";
+  src: url("/fonts/anakotmai/Anakotmai-Bold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anakotmai";
+  src: url("/fonts/anakotmai/Anakotmai-Medium.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Anakotmai";
+  src: url("/fonts/anakotmai/Anakotmai-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-anakotmai: var(--font-anakotmai);
+  --font-anakotmai: "Anakotmai", sans-serif;
 }
 
 @theme inline {

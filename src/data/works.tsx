@@ -68,7 +68,7 @@ export const works: Work[] = [
     title: "Official MV",
     subtitle: (
       <p>
-        <span className="font-anakotmai">หลับตาฝัน</span> - Sarah Salola
+        <span className="font-anakotmai font-light">หลับตาฝัน</span> - Sarah Salola
       </p>
     ),
     role: "DoP",
