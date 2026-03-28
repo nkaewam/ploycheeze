@@ -89,20 +89,24 @@ const works = [
 ]
 ---
 
-<section
-  id="catalog"
-  class="relative flex h-screen flex-col bg-white px-30 pt-36 pb-14"
->
-  <div class="grid self-start h-full w-full grid-cols-4 grid-rows-3 gap-x-20 gap-y-8">
+<section id="catalog" class="relative h-screen">
+  <h2
+    class="absolute top-0 left-0 flex items-center px-8 py-10 text-2xl tracking-tight"
+  >
+    <span class="text-3xl text-transparent select-none">ploycheeze</span>
+    <span class="relative top-px ml-3 leading-[1.2]">as an Art Director</span>
+  </h2>
+  <div
+    class="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-20 gap-y-8 bg-white px-30 pt-36 pb-14"
+  >
     {
       works.map((work) => (
-        <div class="group mx-auto space-y-2 flex h-full w-fit max-w-full min-h-0 cursor-pointer flex-col justify-start">
-          
-            <Image
-              src={work.image}
-              alt={work.title}
-              class="aspect-2560/1600 w-full object-contain"
-            />
+        <div class="group mx-auto flex h-full min-h-0 w-fit max-w-full cursor-pointer flex-col justify-start space-y-2">
+          <Image
+            src={work.image}
+            alt={work.title}
+            class="aspect-2560/1600 w-full object-contain"
+          />
 
           <div class="flex items-start justify-between text-[11px] font-normal tracking-tight text-neutral-900 sm:text-xs">
             <div class="flex flex-col">
