@@ -8,7 +8,9 @@ import { CatalogGrid } from "../catalog-grid"
     class="absolute top-0 left-0 flex items-center px-8 py-8 text-2xl tracking-tight"
   >
     <span class="text-3xl text-transparent select-none">ploycheeze</span>
-    <RoleDisplay client:load />
+    <div class="relative top-2">
+      <RoleDisplay client:load />
+    </div>
   </h2>
   <CatalogGrid client:load />
 </section>
