@@ -12,7 +12,7 @@ export function CatalogGrid() {
     : works;
 
   return (
-    <div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-20 gap-y-8 bg-white px-30 pt-36 pb-14">
+    <div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-24 gap-y-12 bg-white px-30 pt-36 pb-14">
       {filteredWorks.map((work) => (
         <div key={work.id} className="group mx-auto flex h-full min-h-0 w-fit max-w-full cursor-pointer flex-col justify-start space-y-2">
           <img
