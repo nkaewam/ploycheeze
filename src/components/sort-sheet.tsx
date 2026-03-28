@@ -7,10 +7,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "./ui/button"
+import { selectedRole } from "@/lib/store"
 
 export function SortSheet() {
+  const [open, setOpen] = React.useState(false)
+
+  const handleSelectRole = (role: string) => {
+    selectedRole.set(role)
+    setOpen(false)
+  }
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         render={
           <button
@@ -26,11 +34,41 @@ export function SortSheet() {
         className="data-[side=top]:h-screen w-screen border-none bg-white p-0 flex flex-col items-center justify-center focus:outline-none"
       >
         <div className="flex flex-col items-center space-y-14 select-none -translate-y-5">
-          <Button variant="ghost" className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none">Art Director</Button>
-          <Button variant="ghost" className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none">DoP</Button>
-          <Button variant="ghost" className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none">Photographer</Button>
-          <Button variant="ghost" className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none">Colorist</Button>
-          <Button variant="ghost" className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none">2nd Camera</Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => handleSelectRole("Art Director")}
+            className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+          >
+            Art Director
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => handleSelectRole("DoP")}
+            className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+          >
+            DoP
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => handleSelectRole("Photographer")}
+            className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+          >
+            Photographer
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => handleSelectRole("Colorist")}
+            className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+          >
+            Colorist
+          </Button>
+          <Button 
+            variant="ghost" 
+            onClick={() => handleSelectRole("2nd Camera")}
+            className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+          >
+            2nd Camera
+          </Button>
         </div>
       </SheetContent>
     </Sheet>

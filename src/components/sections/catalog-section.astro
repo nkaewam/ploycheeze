@@ -1,11 +1,11 @@
 ---
 import { Image } from "astro:assets"
 import standardSkinBg from "@/assets/standard-skin.png"
+import { RoleDisplay } from "../role-display"
 
 const works = [
   {
     id: 1,
-
     title: "Standard Skin Clinic",
     role: "Art Director",
     image: standardSkinBg,
@@ -94,7 +94,7 @@ const works = [
     class="absolute top-0 left-0 flex items-center px-8 py-10 text-2xl tracking-tight"
   >
     <span class="text-3xl text-transparent select-none">ploycheeze</span>
-    <span class="relative top-px ml-3 leading-[1.2]">as an Art Director</span>
+    <RoleDisplay client:load />
   </h2>
   <div
     class="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-20 gap-y-8 bg-white px-30 pt-36 pb-14"
