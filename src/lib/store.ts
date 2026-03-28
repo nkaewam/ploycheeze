@@ -1,3 +1,3 @@
 import { atom } from 'nanostores';
 
-export const selectedRole = atom<string>('Art Director');
+export const selectedRole = atom<string>('');

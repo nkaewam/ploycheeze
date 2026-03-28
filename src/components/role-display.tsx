@@ -6,6 +6,10 @@ import { selectedRole } from '@/lib/store';
 export function RoleDisplay() {
   const role = useStore(selectedRole);
   
+  if (!role) {
+    return null;
+  }
+  
   const getPrefix = (text: string) => {
     const vowels = ['A', 'E', 'I', 'O', 'U'];
     return vowels.includes(text.charAt(0).toUpperCase()) ? 'an' : 'a';
