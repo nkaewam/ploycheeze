@@ -3,7 +3,26 @@ import { works } from "@/data/works"
 import { Image } from "astro:assets"
 import { MouseScrollIcon } from "@phosphor-icons/react"
 import grain from "@/assets/grain.gif"
+import { RoleDisplay } from "../role-display"
 ---
+
+<style>
+  .has-sub-images:hover .main-image {
+    /* Keep main image visible to prevent background flashing */
+    opacity: 1;
+  }
+
+  .sub-images-container {
+    pointer-events: none;
+  }
+
+  .sub-image {
+    opacity: 0;
+    transition:
+      opacity 0.5s ease-in-out,
+      z-index 0s step-end;
+  }
+</style>
 
 <div
   id="timeline-wrapper"
@@ -20,6 +39,15 @@ import grain from "@/assets/grain.gif"
     >
     </div>
 
+    <h2
+      class="absolute top-0 left-0 flex items-center px-8 py-8 text-2xl tracking-tight"
+    >
+      <span class="text-3xl text-transparent select-none">ploycheeze</span>
+      <div class="relative top-2">
+        <RoleDisplay client:load />
+      </div>
+    </h2>
+
     <p class="absolute top-20 left-8 z-30 text-base tracking-tight lowercase">
       Selected Works
     </p>
@@ -32,19 +60,34 @@ import grain from "@/assets/grain.gif"
       {
         works.map((work, index) => (
           <div
-            class="timeline-item group relative flex h-[35vh] w-[70vw] max-w-lg flex-none origin-center flex-col items-center justify-center"
+            class={`timeline-item group relative flex w-auto flex-none origin-center flex-col items-center justify-center ${work.subImages ? "has-sub-images" : ""}`}
             data-index={index}
+            style={
+              work.subImages ? `--sub-count: ${work.subImages.length};` : ""
+            }
           >
-            <div class="image-wrapper relative h-full w-full overflow-hidden transition-transform duration-100 ease-out">
+            <div class="image-wrapper relative h-auto w-auto overflow-hidden transition-transform duration-100 ease-out">
               <Image
                 src={work.image}
                 alt={work.title}
-                class="h-full w-full object-cover filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                class="main-image max-h-[40vh] w-auto object-contain filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
               />
+              {work.subImages && (
+                <div class="sub-images-container absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  {work.subImages.map((subImg, subIdx) => (
+                    <Image
+                      src={subImg}
+                      alt={`${work.title} sub ${subIdx}`}
+                      class="sub-image absolute inset-0 h-full w-full object-contain"
+                      style={`--sub-index: ${subIdx};`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             <div
-              class="text-container pointer-events-none absolute top-full mt-6 flex justify-between md:mt-8"
+              class="text-container pointer-events-none absolute top-full mt-8 flex justify-between"
               style="width: 100%; left: 0%;"
             >
               <div
@@ -273,7 +316,10 @@ import grain from "@/assets/grain.gif"
           const itemCenterInWorld = itemRect.left + itemRect.width / 2
 
           // Information appears for the "next" item as soon as the center tick passes the 3/4 point of the "current" item
-          if (closestItemIndex === -1 && (itemRect.left + itemRect.width * 0.75) >= windowCenter) {
+          if (
+            closestItemIndex === -1 &&
+            itemRect.left + itemRect.width * 0.75 >= windowCenter
+          ) {
             closestItemIndex = index
           }
 
@@ -334,6 +380,49 @@ import grain from "@/assets/grain.gif"
           }
         })
       }
+
+      // ==========================================
+      // SUB-IMAGES SLIDESHOW LOGIC
+      // ==========================================
+      items.forEach((item) => {
+        const subImages = item.querySelectorAll(
+          ".sub-image"
+        ) as NodeListOf<HTMLElement>
+        if (subImages.length > 0) {
+          let slideTimer: any = null
+          let currentIdx = -1
+
+          const showNext = () => {
+            currentIdx = (currentIdx + 1) % subImages.length
+            subImages.forEach((img, i) => {
+              if (i === currentIdx) {
+                img.style.opacity = "1"
+                img.style.zIndex = "20"
+              } else {
+                img.style.opacity = "0"
+                img.style.zIndex = "1"
+              }
+            })
+          }
+
+          item.addEventListener("mouseenter", () => {
+            currentIdx = 0
+            subImages.forEach((img, i) => {
+              img.style.opacity = i === 0 ? "1" : "0"
+              img.style.zIndex = i === 0 ? "20" : "1"
+            })
+            slideTimer = setInterval(showNext, 1500)
+          })
+
+          item.addEventListener("mouseleave", () => {
+            if (slideTimer) clearInterval(slideTimer)
+            subImages.forEach((img) => {
+              img.style.opacity = "0"
+            })
+            currentIdx = -1
+          })
+        }
+      })
 
       window.addEventListener("scroll", calculateScroll, { passive: true })
       window.addEventListener("resize", calculateScroll)

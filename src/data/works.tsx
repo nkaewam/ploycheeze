@@ -1,9 +1,24 @@
 import type { ReactNode } from "react";
-import standardSkinBgImg from "@/assets/standard-skin.png"
-import standardArtDirectorImg from "@/assets/gallery/std-art-di.png"
+// Standard
+import standardSkinFeaturedImg from "@/assets/gallery/standard-skin/featured.png"
+import standard1Img from "@/assets/gallery/standard-skin/std-1.png"
+import standard2Img from "@/assets/gallery/standard-skin/std-2.png"
+import standard3Img from "@/assets/gallery/standard-skin/std-3.png"
 import standardBeUrOwnStandardImg from "@/assets/gallery/be-ur-own-std.png"
 import standardBeBoldBeUImg from "@/assets/gallery/be-bold-be-u.png"
-import blumoImg from "@/assets/gallery/blumo.png"
+
+// Blumo
+import blumoFeaturedImg from "@/assets/gallery/blumo/featured.jpg"
+import blumo1Img from "@/assets/gallery/blumo/blumo-1.jpg"
+import blumo2Img from "@/assets/gallery/blumo/blumo-2.jpg"
+import blumo3Img from "@/assets/gallery/blumo/blumo-3.jpg"
+
+// Pride & Prejudice
+import pnpFeaturedImg from "@/assets/gallery/pnp/featured.jpg"
+import pnp1Img from "@/assets/gallery/pnp/pnp-1.jpg"
+import pnp2Img from "@/assets/gallery/pnp/pnp-2.jpg"
+import pnp3Img from "@/assets/gallery/pnp/pnp-3.jpg"
+
 import rollerCoasterImg from "@/assets/gallery/rc.png"
 import pnpImg from "@/assets/gallery/p&p.png"
 import veinsAndWiresImg from "@/assets/gallery/ovaw.png"
@@ -14,15 +29,22 @@ export interface Work {
   title: string;
   subtitle?: ReactNode;
   role: string;
-  image: any;
+  image: ImageMetadata;
+  subImages?: ImageMetadata[];
 }
 
 export const works: Work[] = [
   {
     id: 1,
-    title: "Standard Skin Clinic",
-    role: "Art Director",
-    image: standardArtDirectorImg,
+    title: "Blumo",
+    role: "Photographer",
+    image: blumoFeaturedImg,
+    subImages: [
+      blumo1Img,
+      blumo2Img,
+      blumo3Img,
+      blumoFeaturedImg
+    ]
   },
   {
     id: 2,
@@ -40,9 +62,15 @@ export const works: Work[] = [
   },
   {
     id: 4,
-    title: "Blumo",
-    role: "Photographer",
-    image: blumoImg,
+    title: "Standard Skin Clinic",
+    role: "Art Director",
+    image: standardSkinFeaturedImg,
+    subImages: [
+      standard1Img,
+      standard2Img,
+      standard3Img,
+      standardSkinFeaturedImg
+    ]
   },
   {
     id: 5,
@@ -55,7 +83,13 @@ export const works: Work[] = [
     title: "Pride & Prejudice",
     subtitle: ": In Her Room",
     role: "Photographer",
-    image: pnpImg,
+    image: pnpFeaturedImg,
+    subImages: [
+      pnp1Img,
+      pnp2Img,
+      pnp3Img,
+      pnpFeaturedImg
+    ]
   },
   {
     id: 7,
