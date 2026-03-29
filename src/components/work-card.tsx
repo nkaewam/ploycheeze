@@ -17,9 +17,9 @@ export function WorkCard({ workId, index }: WorkCardProps) {
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>
-    if (work.contentType === "photo" && work.subImages.length > 0) {
+    if (work.contentType === "photo" && work.previewImages.length > 0) {
       interval = setInterval(() => {
-        setCurrentSubIdx((prev) => (prev + 1) % work.subImages.length)
+        setCurrentSubIdx((prev) => (prev + 1) % work.previewImages.length)
       }, 1500)
     }
     return () => clearInterval(interval)
@@ -36,6 +36,16 @@ export function WorkCard({ workId, index }: WorkCardProps) {
         },
       })
       window.dispatchEvent(event)
+    } else if (work.contentType === "photo") {
+      const event = new CustomEvent("open-image-sheet", {
+        detail: {
+          images: work.images,
+          title: work.title,
+          subtitle: work.subtitle,
+          role: work.role,
+        },
+      })
+      window.dispatchEvent(event)
     }
   }
 
@@ -46,14 +56,14 @@ export function WorkCard({ workId, index }: WorkCardProps) {
 
   return (
     <div
-      className={`timeline-item group relative w-auto flex-none origin-center flex-col items-center justify-center ${work.contentType === "photo" ? "has-sub-images" : "has-video cursor-pointer"
+      className={`timeline-item group relative w-auto flex-none origin-center flex-col items-center justify-center cursor-pointer ${work.contentType === "photo" ? "has-sub-images" : "has-video"
         } ${isSelected ? "flex" : "hidden"}`}
       data-index={index}
       data-type={work.contentType}
       data-vimeo-id={work.contentType === "video" ? work.vimeoId : undefined}
       style={
         work.contentType === "photo"
-          ? ({ "--sub-count": work.subImages.length } as React.CSSProperties)
+          ? ({ "--sub-count": work.previewImages.length } as React.CSSProperties)
           : {}
       }
       onClick={handleClick}
@@ -66,7 +76,7 @@ export function WorkCard({ workId, index }: WorkCardProps) {
         />
         {work.contentType === "photo" && (
           <div className="sub-images-container absolute inset-0 flex items-center justify-center">
-            {work.subImages.map((subImg, subIdx) => (
+            {work.previewImages.map((subImg, subIdx) => (
               <img
                 key={subIdx}
                 src={subImg.src}

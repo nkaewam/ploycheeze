@@ -12,12 +12,20 @@ import blumoFeaturedImg from "@/assets/gallery/blumo/featured.jpg"
 import blumo1Img from "@/assets/gallery/blumo/blumo-1.jpg"
 import blumo2Img from "@/assets/gallery/blumo/blumo-2.jpg"
 import blumo3Img from "@/assets/gallery/blumo/blumo-3.jpg"
+import blumo4Img from "@/assets/gallery/blumo/blumo-4.jpg"
+import blumo5Img from "@/assets/gallery/blumo/blumo-5.jpg"
+import blumo6Img from "@/assets/gallery/blumo/blumo-6.jpg"
+import blumo7Img from "@/assets/gallery/blumo/blumo-7.jpg"
 
 // Pride & Prejudice
 import pnpFeaturedImg from "@/assets/gallery/pnp/featured.jpg"
 import pnp1Img from "@/assets/gallery/pnp/pnp-1.jpg"
 import pnp2Img from "@/assets/gallery/pnp/pnp-2.jpg"
 import pnp3Img from "@/assets/gallery/pnp/pnp-3.jpg"
+import pnp4Img from "@/assets/gallery/pnp/pnp-4.jpg"
+import pnp5Img from "@/assets/gallery/pnp/pnp-5.jpg"
+import pnp6Img from "@/assets/gallery/pnp/pnp-6.jpg"
+import pnp7Img from "@/assets/gallery/pnp/pnp-7.jpg"
 
 import everythingImg from "@/assets/gallery/everything.png"
 import rollerCoasterImg from "@/assets/gallery/rc.png"
@@ -39,7 +47,8 @@ export type Work = {
   vimeoId: number;
 } | {
   contentType: "photo";
-  subImages: ImageMetadata[];
+  previewImages: ImageMetadata[];
+  images: ImageMetadata[];
 })
 
 export const works: Work[] = [
@@ -50,11 +59,22 @@ export const works: Work[] = [
     role: "Photographer",
     tags: ["photographer"],
     image: blumoFeaturedImg,
-    subImages: [
+    previewImages: [
       blumo1Img,
       blumo2Img,
       blumo3Img,
       blumoFeaturedImg
+    ],
+    images: [
+      blumoFeaturedImg,
+      blumo1Img,
+      blumo3Img,
+      blumo2Img,
+      blumo4Img,
+      blumo5Img,
+      blumo6Img,
+      blumo7Img,
+
     ]
   },
   {
@@ -84,7 +104,13 @@ export const works: Work[] = [
     contentType: "photo",
     tags: ["art-director"],
     image: standardSkinFeaturedImg,
-    subImages: [
+    previewImages: [
+      standard1Img,
+      standard2Img,
+      standard3Img,
+      standardSkinFeaturedImg
+    ],
+    images: [
       standard1Img,
       standard2Img,
       standard3Img,
@@ -108,10 +134,20 @@ export const works: Work[] = [
     tags: ["photographer"],
     image: pnpFeaturedImg,
     contentType: "photo",
-    subImages: [
+    previewImages: [
       pnp1Img,
       pnp2Img,
       pnp3Img,
+      pnpFeaturedImg
+    ],
+    images: [
+      pnp1Img,
+      pnp2Img,
+      pnp3Img,
+      pnp4Img,
+      pnp5Img,
+      pnp6Img,
+      pnp7Img,
       pnpFeaturedImg
     ]
   },

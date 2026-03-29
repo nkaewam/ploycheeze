@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { Sheet, SheetContent } from "./ui/sheet"
-import { Image } from "astro:assets"
 import grain from "@/assets/grain.gif"
 import { XIcon } from "@phosphor-icons/react"
 
