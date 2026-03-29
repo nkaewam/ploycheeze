@@ -36,7 +36,7 @@ export function SortSheet() {
           showCloseButton={true}
           className="data-[side=top]:h-screen w-screen border-none duration-500 bg-white p-0 flex flex-col items-center justify-center focus:outline-none"
         >
-          <div className="flex flex-col items-center space-y-14 select-none -translate-y-5">
+          <div className="flex flex-col items-center space-y-16 select-none -translate-y-5">
             <Button
               variant="ghost"
               onClick={() => handleSelectRole("Art Director")}
@@ -46,10 +46,10 @@ export function SortSheet() {
             </Button>
             <Button
               variant="ghost"
-              onClick={() => handleSelectRole("DoP")}
+              onClick={() => handleSelectRole("Cinematographer")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >
-              DoP
+              Cinematographer
             </Button>
             <Button
               variant="ghost"

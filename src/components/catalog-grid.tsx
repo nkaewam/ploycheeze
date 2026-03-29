@@ -12,7 +12,7 @@ export function CatalogGrid() {
     : works;
 
   return (
-    <div className="grid h-full w-full grid-cols-4 grid-rows-3 gap-x-24 gap-y-12 bg-white px-30 pt-36 pb-14">
+    <div className="grid h-auto w-full grid-cols-4 grid-rows-2 gap-x-12 gap-y-24 bg-[#FFFFFD] px-30 pt-36 pb-14">
       {filteredWorks.map((work) => (
         <div key={work.id} className="group mx-auto flex h-full min-h-0 w-fit max-w-full cursor-pointer flex-col justify-start space-y-2">
           <img
@@ -21,7 +21,7 @@ export function CatalogGrid() {
             className="aspect-2560/1600 w-full object-contain"
           />
 
-          <div className="flex items-start justify-between text-[11px] font-normal tracking-tight text-neutral-900 sm:text-xs">
+          <div className="flex items-start justify-between text-[12px] font-normal tracking-tight text-neutral-900">
             <div className="flex flex-col">
               <span className="leading-[1.4]">{work.title}</span>
               {work.subtitle && (

@@ -28,14 +28,14 @@ export const works: Work[] = [
     id: 2,
     title: "Standard Skin Clinic",
     subtitle: "Be your own standard",
-    role: "Director / DoP",
+    role: "Director / Cinematographer",
     image: standardBeUrOwnStandardImg,
   },
   {
     id: 3,
     title: "Standard Skin Clinic",
     subtitle: "Be Bold, Be You",
-    role: "Director / DoP",
+    role: "Director / Cinematographer",
     image: standardBeBoldBeUImg,
   },
   {
@@ -47,7 +47,7 @@ export const works: Work[] = [
   {
     id: 5,
     title: "Roller Coaster the series",
-    role: "DoP",
+    role: "Cinematographer",
     image: rollerCoasterImg,
   },
   {
@@ -60,7 +60,7 @@ export const works: Work[] = [
   {
     id: 7,
     title: "Of Veins and Wires",
-    role: "DoP",
+    role: "Cinematographer",
     image: veinsAndWiresImg,
   },
   {
@@ -71,35 +71,7 @@ export const works: Work[] = [
         <span className="font-anakotmai font-light">หลับตาฝัน</span> - Sarah Salola
       </p>
     ),
-    role: "DoP",
+    role: "Cinematographer",
     image: sarahImg,
-  },
-  {
-    id: 9,
-    title: "Standard Skin Clinic",
-    subtitle: "Be your own standard",
-    role: "Director / DoP",
-    image: standardSkinBgImg,
-  },
-  {
-    id: 10,
-    title: "Standard Skin Clinic",
-    subtitle: "Be your own standard",
-    role: "Director / DoP",
-    image: standardSkinBgImg,
-  },
-  {
-    id: 11,
-    title: "Standard Skin Clinic",
-    subtitle: "Be Bold, Be You",
-    role: "Director / DoP",
-    image: standardSkinBgImg,
-  },
-  {
-    id: 12,
-    title: "Standard Skin Clinic",
-    subtitle: "Be Bold, Be You",
-    role: "Director / DoP",
-    image: standardSkinBgImg,
-  },
+  }
 ]
