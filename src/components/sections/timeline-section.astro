@@ -20,6 +20,10 @@ import grain from "@/assets/grain.gif"
     >
     </div>
 
+    <p class="absolute top-20 left-8 z-30 text-base tracking-tight lowercase">
+      Selected Works
+    </p>
+
     <!-- Timeline Container -->
     <div
       id="timeline-container"
@@ -262,10 +266,18 @@ import grain from "@/assets/grain.gif"
         // Determine which item is at the center
         const windowCenter = window.innerWidth / 2
 
-        items.forEach((item) => {
+        let closestItemIndex = 0
+        let minDistance = Infinity
+
+        items.forEach((item, index) => {
           const itemRect = (item as HTMLElement).getBoundingClientRect()
           const itemCenterInWorld = itemRect.left + itemRect.width / 2
           const distFromCenter = Math.abs(windowCenter - itemCenterInWorld)
+
+          if (distFromCenter < minDistance) {
+            minDistance = distFromCenter
+            closestItemIndex = index
+          }
 
           const activationZone = window.innerWidth * 0.4
           let scale = UNFOCUSED_SCALE
@@ -295,11 +307,13 @@ import grain from "@/assets/grain.gif"
             textContainer.style.width = `${scale * 100}%`
             textContainer.style.left = `${(1 - scale) * 50}%`
           }
+        })
 
+        items.forEach((item, index) => {
           const infoLeft = item.querySelector(".info-left") as HTMLElement
           const infoRight = item.querySelector(".info-right") as HTMLElement
 
-          if (distFromCenter < window.innerWidth * 0.15) {
+          if (index === closestItemIndex) {
             if (infoLeft) {
               infoLeft.style.opacity = "1"
               infoLeft.style.transform = "translate3d(0, 0, 0)"
