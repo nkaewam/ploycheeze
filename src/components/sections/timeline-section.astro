@@ -85,7 +85,7 @@ import grain from "@/assets/grain.gif"
           {
             Array.from({ length: 800 }).map((_, i) => (
               <div
-                class="tick w-px flex-none bg-[#f7add6] transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                class="tick w-px flex-none bg-[#f7add6] transition-all duration-700 ease-out"
                 style="height: 13px;"
               />
             ))
@@ -121,9 +121,11 @@ import grain from "@/assets/grain.gif"
   // Animation duration/easing can be adjusted in the "tick" div's class list
   const TICK_GAP_VW = 0.008 // Match gap-[0.6vw]
   const TICK_BASE_HEIGHT = "13px"
-  const TICK_ACTIVE_HEIGHT = "35px"
+  const TICK_ACTIVE_HEIGHT = "50px"
   const TICK_BASE_COLOR = "#f492c1"
   const TICK_ACTIVE_COLOR = "#444444"
+  const TICK_GROW_DURATION = "300ms"
+  const TICK_SHRINK_DURATION = "700ms"
 
   // ------------------------------------------
 
@@ -231,10 +233,12 @@ import grain from "@/assets/grain.gif"
             if (centerIdx !== lastCenterIdx) {
               // Reset previous active area
               if (lastCenterIdx >= 0) {
-                // Check a small range to ensure clean reset
-                for (let i = lastCenterIdx - 2; i <= lastCenterIdx + 2; i++) {
+                // We check a slightly wider range to be safe when scrolling fast
+                for (let i = lastCenterIdx - 4; i <= lastCenterIdx + 4; i++) {
                   const t = tickElements[i] as HTMLElement
-                  if (t) {
+                  if (t && i !== centerIdx) {
+                    // Transitions back to base (Shrink) use the explicit shrink duration
+                    t.style.transitionDuration = TICK_SHRINK_DURATION
                     t.style.height = TICK_BASE_HEIGHT
                     t.style.backgroundColor = TICK_BASE_COLOR
                   }
@@ -244,6 +248,8 @@ import grain from "@/assets/grain.gif"
               // Set new centermost tick
               const activeTick = tickElements[centerIdx] as HTMLElement
               if (activeTick) {
+                // Growth transition duration override
+                activeTick.style.transitionDuration = TICK_GROW_DURATION
                 activeTick.style.height = TICK_ACTIVE_HEIGHT
                 activeTick.style.backgroundColor = TICK_ACTIVE_COLOR
               }
