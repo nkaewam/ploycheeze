@@ -37,8 +37,19 @@ import ovaw6Img from "@/assets/gallery/ovaw/ovaw-6.jpg"
 import ovaw7Img from "@/assets/gallery/ovaw/ovaw-7.jpg"
 import ovaw8Img from "@/assets/gallery/ovaw/ovaw-8.jpg"
 
-import rollerCoasterImg from "@/assets/gallery/rc.png"
+// Sarah
 import sarahImg from "@/assets/gallery/sarah.png"
+import sarah1Img from "@/assets/gallery/sarah/sarah-1.jpg"
+import sarah2Img from "@/assets/gallery/sarah/sarah-2.jpg"
+import sarah3Img from "@/assets/gallery/sarah/sarah-3.png"
+import sarah4Img from "@/assets/gallery/sarah/sarah-4.png"
+import sarah5Img from "@/assets/gallery/sarah/sarah-5.png"
+import sarah6Img from "@/assets/gallery/sarah/sarah-6.png"
+import sarah7Img from "@/assets/gallery/sarah/sarah-7.png"
+import sarah8Img from "@/assets/gallery/sarah/sarah-8.png"
+
+import rollerCoasterImg from "@/assets/gallery/rc.png"
+
 import seriousBaconImg from "@/assets/gallery/seriousbacon.png"
 import tippsyImg from "@/assets/gallery/tippsy.png"
 import phuImg from "@/assets/gallery/phu.png"
@@ -194,8 +205,20 @@ export const works: Work[] = [
     role: "Cinematographer",
     tags: ["cinematographer"],
     image: sarahImg,
-    contentType: "video",
-    vimeoId: 1147292872
+    contentType: "photo",
+    previewImages: [
+      sarahImg
+    ],
+    images: [
+      sarah1Img,
+      sarah2Img,
+      sarah3Img,
+      sarah4Img,
+      sarah5Img,
+      sarah6Img,
+      sarah7Img,
+      sarah8Img,
+    ]
   },
   {
     id: "phutatchai-phayayam",

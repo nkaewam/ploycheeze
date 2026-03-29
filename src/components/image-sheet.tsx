@@ -73,7 +73,7 @@ export function ImageSheet() {
                   <img
                     src={img.src}
                     alt={`Project image ${idx}`}
-                    className="w-full h-auto object-cover"
+                    className="w-full h-full object-contain"
                     loading="lazy"
                   />
                 </div>

@@ -114,7 +114,7 @@ export function WorkCard({ workId, index }: WorkCardProps) {
           style={{ opacity: 0, transform: "translate3d(0, -20px, 0)" }}
         >
           {work.role && (
-            <p className="pt-1 text-base text-muted-foreground lowercase">
+            <p className="pt-1 text-lg text-muted-foreground lowercase">
               {work.role}
             </p>
           )}
