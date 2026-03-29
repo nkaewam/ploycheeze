@@ -29,15 +29,28 @@ import { Image } from "astro:assets"
                 class="h-full w-full object-cover filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
               />
             </div>
-            
-            <div class="pointer-events-none absolute left-0 top-full mt-6 flex w-full justify-between md:mt-8">
-              <div class="info-left text-left transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" style="opacity: 0; transform: translate3d(0, 20px, 0);">
+
+            <div
+              class="text-container pointer-events-none absolute top-full mt-6 flex justify-between md:mt-8"
+              style="width: 100%; left: 0%;"
+            >
+              <div
+                class="info-left text-left transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style="opacity: 0; transform: translate3d(0, 20px, 0);"
+              >
                 <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
                   {work.title}
                 </h3>
-                {work.subtitle && <div class="mt-1 text-sm text-foreground/80">{work.subtitle}</div>}
+                {work.subtitle && (
+                  <div class="mt-1 text-sm text-foreground/80">
+                    {work.subtitle}
+                  </div>
+                )}
               </div>
-              <div class="info-right text-right transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] delay-75" style="opacity: 0; transform: translate3d(0, 20px, 0);">
+              <div
+                class="info-right text-right transition-all delay-75 duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style="opacity: 0; transform: translate3d(0, 20px, 0);"
+              >
                 {work.role && (
                   <p class="pt-1 text-xs tracking-widest text-muted-foreground uppercase">
                     {work.role}
@@ -50,28 +63,29 @@ import { Image } from "astro:assets"
       }
     </div>
 
-    <!-- Ticks & fixed center marker -->
+    <!-- Ticks & dynamic marker -->
     <div
-      class="pointer-events-none absolute bottom-8 left-0 z-20 w-full md:bottom-12"
+      class="pointer-events-none absolute bottom-0 left-0 z-20 w-full overflow-hidden"
     >
-      <!-- Fixed center marker -->
-      <div
-        class="absolute bottom-0 left-1/2 h-16 w-px -translate-x-1/2 bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-      >
-      </div>
-
       <!-- Ticks container -->
-      <div class="relative h-4 w-full overflow-hidden opacity-30">
+      <div class="relative h-20 w-full">
         <div
           id="ticks-container"
-          class="absolute top-0 left-0 h-full w-full"
-          style="background-image: repeating-linear-gradient(to right, currentColor 0, currentColor 1px, transparent 1px, transparent 1.5vw);"
+          class="flex h-full items-end gap-[0.8vw] px-[50vw] will-change-transform"
         >
+          {
+            Array.from({ length: 800 }).map((_, i) => (
+              <div
+                class="tick w-px flex-none bg-[#f7add6] transition-all duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style="height: 13px;"
+              />
+            ))
+          }
         </div>
       </div>
 
       <div
-        class="mt-4 text-center font-mono text-xs tracking-[0.4em] uppercase opacity-50"
+        class="mt-4 pb-8 text-center font-mono text-xs tracking-[0.4em] uppercase opacity-50"
         id="timeline-year"
       >
         SELECTED WORKS
@@ -84,18 +98,25 @@ import { Image } from "astro:assets"
   // ==========================================
   // CONFIGURATION
   // ==========================================
-  // Controls how responsive the timeline is while you are actively scrolling (higher = faster start, snappier)
+
+  // 1. SCROLL PHYSICS
   const SCROLL_EASE_ACTIVE = 0.2
-  // Controls the inertia/smoothness when you stop scrolling (lower = longer, floating stop)
   const SCROLL_EASE_REST = 0.2
-  // How much you have to physically scroll to move the timeline.
-  // 1.0 = normal horizontal swipe distance
-  // 1.5 = heavier friction (takes 50% more scrolling to get across)
   const SCROLL_FRICTION = 1.25
-  // The size of the image when perfectly centered (1.15 = 115%)
+
+  // 2. IMAGE SCALING
   const FOCUSED_SCALE = 1.15
-  // The size of the images that are not perfectly centered (1.0 = 100%)
   const UNFOCUSED_SCALE = 0.85
+
+  // 3. GROW/SHRINK TICK ANIMATION (Configuration)
+  // Animation duration/easing can be adjusted in the "tick" div's class list
+  const TICK_GAP_VW = 0.008 // Match gap-[0.6vw]
+  const TICK_BASE_HEIGHT = "13px"
+  const TICK_ACTIVE_HEIGHT = "35px"
+  const TICK_BASE_COLOR = "#f492c1"
+  const TICK_ACTIVE_COLOR = "#444444"
+
+  // ------------------------------------------
 
   // Add a self-executing init block for Astro
   document.addEventListener("DOMContentLoaded", initTimeline)
@@ -120,6 +141,8 @@ import { Image } from "astro:assets"
       let currentTranslateX = 0
       let currentEase = SCROLL_EASE_REST
       let isUpdating = false
+
+      let lastCenterIdx = -1
 
       function calculateScroll() {
         if (!wrapper || !container) return
@@ -177,8 +200,37 @@ import { Image } from "astro:assets"
         container.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
 
         if (ticks) {
-          // Slide the background image to simulate continuous moving ticks
-          ticks.style.backgroundPosition = `${currentTranslateX}px 0`
+          ticks.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
+
+          const tickElements = ticks.querySelectorAll(".tick")
+          if (tickElements.length > 0) {
+            const tickGap = window.innerWidth * TICK_GAP_VW
+            const tickStepSize = 1 + tickGap
+            const centerIdx = Math.round(-currentTranslateX / tickStepSize)
+
+            if (centerIdx !== lastCenterIdx) {
+              // Reset previous active area
+              if (lastCenterIdx >= 0) {
+                // Check a small range to ensure clean reset
+                for (let i = lastCenterIdx - 2; i <= lastCenterIdx + 2; i++) {
+                  const t = tickElements[i] as HTMLElement
+                  if (t) {
+                    t.style.height = TICK_BASE_HEIGHT
+                    t.style.backgroundColor = TICK_BASE_COLOR
+                  }
+                }
+              }
+
+              // Set new centermost tick
+              const activeTick = tickElements[centerIdx] as HTMLElement
+              if (activeTick) {
+                activeTick.style.height = TICK_ACTIVE_HEIGHT
+                activeTick.style.backgroundColor = TICK_ACTIVE_COLOR
+              }
+
+              lastCenterIdx = centerIdx
+            }
+          }
         }
 
         // Determine which item is at the center
@@ -210,9 +262,17 @@ import { Image } from "astro:assets"
             imageWrapper.style.transform = `scale(${scale})`
           }
 
+          const textContainer = item.querySelector(
+            ".text-container"
+          ) as HTMLElement
+          if (textContainer) {
+            textContainer.style.width = `${scale * 100}%`
+            textContainer.style.left = `${(1 - scale) * 50}%`
+          }
+
           const infoLeft = item.querySelector(".info-left") as HTMLElement
           const infoRight = item.querySelector(".info-right") as HTMLElement
-          
+
           if (distFromCenter < window.innerWidth * 0.15) {
             if (infoLeft) {
               infoLeft.style.opacity = "1"
