@@ -1,6 +1,7 @@
 ---
 import { works } from "@/data/works"
 import { Image } from "astro:assets"
+import { MouseScrollIcon } from "@phosphor-icons/react"
 import grain from "@/assets/grain.gif"
 ---
 
@@ -93,10 +94,10 @@ import grain from "@/assets/grain.gif"
       </div>
 
       <div
-        class="mt-4 pb-8 text-center text-base lowercase opacity-50"
+        class="mt-4 flex items-center justify-center gap-1 pb-8 text-center text-base lowercase opacity-50"
         id="timeline-year"
       >
-        SELECTED WORKS
+        scroll <MouseScrollIcon size={24} />
       </div>
     </div>
   </div>
