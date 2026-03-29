@@ -9,12 +9,55 @@ import CatalogSection from "@/components/sections/catalog-section.astro"
 <Layout>
   <Navigation />
   
-  <div class="sticky top-0 h-screen w-full -z-10">
-    <HeroSection />
+  <div id="scroll-wrapper" class="relative h-[250vh] w-full">
+    <!-- Hero remains fixed in the background -->
+    <div class="fixed top-0 left-0 h-screen w-full -z-10 bg-background">
+      <HeroSection />
+    </div>
+    
+    <!-- Catalog section starts at top-[100vh] and moves up via transform -->
+    <div 
+      id="parallax-catalog" 
+      class="fixed top-[100vh] left-0 h-screen w-full z-10 bg-background will-change-transform"
+    >
+      <CatalogSection />
+    </div>
   </div>
-  
-  <!-- <StandardSkinSection /> -->
-  <div class="relative z-10 bg-background">
-    <CatalogSection />
-  </div>
+
+  <script>
+    const catalog = document.getElementById("parallax-catalog");
+    const wrapper = document.getElementById("scroll-wrapper");
+    
+    let ticking = false;
+    
+    function updateParallax() {
+      if (!catalog || !wrapper) return;
+      
+      const maxScroll = wrapper.offsetHeight - window.innerHeight;
+      let scrollY = window.scrollY;
+      
+      if (scrollY < 0) scrollY = 0;
+      if (scrollY > maxScroll) scrollY = maxScroll;
+      
+      // Calculate progress across the extra scrolling distance
+      const progress = maxScroll > 0 ? scrollY / maxScroll : 0;
+      
+      // We want to translate UP by exactly 100vh when fully scrolled
+      const yOffset = -window.innerHeight * progress;
+      
+      catalog.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+      ticking = false;
+    }
+
+    if (catalog && wrapper) {
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateParallax);
+          ticking = true;
+        }
+      });
+      window.addEventListener("resize", updateParallax);
+      updateParallax(); // Apply initial state
+    }
+  </script>
 </Layout>
