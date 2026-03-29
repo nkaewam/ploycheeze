@@ -266,18 +266,18 @@ import grain from "@/assets/grain.gif"
         // Determine which item is at the center
         const windowCenter = window.innerWidth / 2
 
-        let closestItemIndex = 0
-        let minDistance = Infinity
+        let closestItemIndex = -1
 
         items.forEach((item, index) => {
           const itemRect = (item as HTMLElement).getBoundingClientRect()
           const itemCenterInWorld = itemRect.left + itemRect.width / 2
-          const distFromCenter = Math.abs(windowCenter - itemCenterInWorld)
 
-          if (distFromCenter < minDistance) {
-            minDistance = distFromCenter
+          // Information appears for the "next" item as soon as the center tick passes the 3/4 point of the "current" item
+          if (closestItemIndex === -1 && (itemRect.left + itemRect.width * 0.75) >= windowCenter) {
             closestItemIndex = index
           }
+
+          const distFromCenter = Math.abs(windowCenter - itemCenterInWorld)
 
           const activationZone = window.innerWidth * 0.4
           let scale = UNFOCUSED_SCALE
