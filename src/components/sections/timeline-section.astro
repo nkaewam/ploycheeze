@@ -4,6 +4,7 @@ import { Image } from "astro:assets"
 import { MouseScrollIcon } from "@phosphor-icons/react"
 import grain from "@/assets/grain.gif"
 import { RoleDisplay } from "../role-display"
+import { VideoSheet } from "../video-sheet"
 ---
 
 <style>
@@ -60,10 +61,16 @@ import { RoleDisplay } from "../role-display"
       {
         works.map((work, index) => (
           <div
-            class={`timeline-item group relative flex w-auto flex-none origin-center flex-col items-center justify-center ${work.subImages ? "has-sub-images" : ""}`}
+            class={`timeline-item group relative flex w-auto flex-none origin-center flex-col items-center justify-center ${work.contentType === "photo" ? "has-sub-images" : "has-video cursor-pointer"}`}
             data-index={index}
+            data-type={work.contentType}
+            data-vimeo-id={
+              work.contentType === "video" ? work.vimeoId : undefined
+            }
             style={
-              work.subImages ? `--sub-count: ${work.subImages.length};` : ""
+              work.contentType === "photo"
+                ? `--sub-count: ${work.subImages.length};`
+                : ""
             }
           >
             <div class="image-wrapper relative h-auto w-auto overflow-hidden transition-transform duration-100 ease-out">
@@ -72,7 +79,7 @@ import { RoleDisplay } from "../role-display"
                 alt={work.title}
                 class="main-image max-h-[40vh] w-auto object-contain filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
               />
-              {work.subImages && (
+              {work.contentType === "photo" && (
                 <div class="sub-images-container absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                   {work.subImages.map((subImg, subIdx) => (
                     <Image
@@ -147,6 +154,9 @@ import { RoleDisplay } from "../role-display"
         scroll <MouseScrollIcon size={24} />
       </div>
     </div>
+
+    <!-- Video Sheet -->
+    <VideoSheet client:load />
   </div>
 </div>
 
@@ -420,6 +430,33 @@ import { RoleDisplay } from "../role-display"
               img.style.opacity = "0"
             })
             currentIdx = -1
+          })
+        }
+      })
+
+      // ==========================================
+      // VIDEO SHEET LOGIC
+      // ==========================================
+      items.forEach((item) => {
+        const type = item.getAttribute("data-type")
+        if (type === "video") {
+          item.addEventListener("click", () => {
+            const vimeoId = item.getAttribute("data-vimeo-id")
+            if (vimeoId) {
+              const titleEl = item.querySelector("h3")
+              const subtitleEl = item.querySelector(".info-left .mt-1.text-sm")
+              const roleEl = item.querySelector(".info-right p")
+
+              const event = new CustomEvent("open-video-sheet", {
+                detail: {
+                  vimeoId,
+                  title: titleEl ? titleEl.innerHTML : "",
+                  subtitle: subtitleEl ? subtitleEl.innerHTML : "",
+                  role: roleEl ? roleEl.innerHTML : "",
+                },
+              })
+              window.dispatchEvent(event)
+            }
           })
         }
       })

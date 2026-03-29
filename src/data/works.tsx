@@ -24,19 +24,25 @@ import pnpImg from "@/assets/gallery/p&p.png"
 import veinsAndWiresImg from "@/assets/gallery/ovaw.png"
 import sarahImg from "@/assets/gallery/sarah.png"
 
-export interface Work {
+export type Work = {
   id: number;
   title: string;
   subtitle?: ReactNode;
   role: string;
   image: ImageMetadata;
-  subImages?: ImageMetadata[];
-}
+} & ({
+  contentType: "video";
+  vimeoId: number;
+} | {
+  contentType: "photo";
+  subImages: ImageMetadata[];
+})
 
 export const works: Work[] = [
   {
     id: 1,
     title: "Blumo",
+    contentType: "photo",
     role: "Photographer",
     image: blumoFeaturedImg,
     subImages: [
@@ -52,6 +58,8 @@ export const works: Work[] = [
     subtitle: "Be your own standard",
     role: "Director / Cinematographer",
     image: standardBeUrOwnStandardImg,
+    contentType: "video",
+    vimeoId: 1147291392
   },
   {
     id: 3,
@@ -59,11 +67,14 @@ export const works: Work[] = [
     subtitle: "Be Bold, Be You",
     role: "Director / Cinematographer",
     image: standardBeBoldBeUImg,
+    contentType: "video",
+    vimeoId: 1147292872
   },
   {
     id: 4,
     title: "Standard Skin Clinic",
     role: "Art Director",
+    contentType: "photo",
     image: standardSkinFeaturedImg,
     subImages: [
       standard1Img,
@@ -77,6 +88,8 @@ export const works: Work[] = [
     title: "Roller Coaster the series",
     role: "Cinematographer",
     image: rollerCoasterImg,
+    contentType: "video",
+    vimeoId: 1134218638
   },
   {
     id: 6,
@@ -84,6 +97,7 @@ export const works: Work[] = [
     subtitle: ": In Her Room",
     role: "Photographer",
     image: pnpFeaturedImg,
+    contentType: "photo",
     subImages: [
       pnp1Img,
       pnp2Img,
@@ -96,6 +110,8 @@ export const works: Work[] = [
     title: "Of Veins and Wires",
     role: "Cinematographer",
     image: veinsAndWiresImg,
+    contentType: "video",
+    vimeoId: 1147292872
   },
   {
     id: 8,
@@ -107,5 +123,7 @@ export const works: Work[] = [
     ),
     role: "Cinematographer",
     image: sarahImg,
+    contentType: "video",
+    vimeoId: 1147292872
   }
 ]
