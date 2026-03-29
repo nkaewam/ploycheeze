@@ -27,14 +27,22 @@ import pnp5Img from "@/assets/gallery/pnp/pnp-5.jpg"
 import pnp6Img from "@/assets/gallery/pnp/pnp-6.jpg"
 import pnp7Img from "@/assets/gallery/pnp/pnp-7.jpg"
 
-import everythingImg from "@/assets/gallery/everything.png"
+// Of Veins and Wires
+import ovaw1Img from "@/assets/gallery/ovaw/ovaw-1.png"
+import ovaw2Img from "@/assets/gallery/ovaw/ovaw-2.jpg"
+import ovaw3Img from "@/assets/gallery/ovaw/ovaw-3.jpg"
+import ovaw4Img from "@/assets/gallery/ovaw/ovaw-4.jpg"
+import ovaw5Img from "@/assets/gallery/ovaw/ovaw-5.jpg"
+import ovaw6Img from "@/assets/gallery/ovaw/ovaw-6.jpg"
+import ovaw7Img from "@/assets/gallery/ovaw/ovaw-7.jpg"
+import ovaw8Img from "@/assets/gallery/ovaw/ovaw-8.jpg"
+
 import rollerCoasterImg from "@/assets/gallery/rc.png"
-import pnpImg from "@/assets/gallery/p&p.png"
-import veinsAndWiresImg from "@/assets/gallery/ovaw.png"
 import sarahImg from "@/assets/gallery/sarah.png"
 import seriousBaconImg from "@/assets/gallery/seriousbacon.png"
 import tippsyImg from "@/assets/gallery/tippsy.png"
 import phuImg from "@/assets/gallery/phu.png"
+import everythingImg from "@/assets/gallery/everything.png"
 
 export type Work = {
   id: string;
@@ -155,11 +163,25 @@ export const works: Work[] = [
   {
     id: "of-veins-and-wires",
     title: "Of Veins and Wires",
+    subtitle: "(Mockumentary)",
     role: "Cinematographer",
     tags: ["cinematographer"],
-    image: veinsAndWiresImg,
-    contentType: "video",
-    vimeoId: 1147292872
+    image: ovaw1Img,
+    contentType: "photo",
+    images: [
+      ovaw1Img,
+      ovaw2Img,
+      ovaw3Img,
+      ovaw4Img,
+      ovaw5Img,
+      ovaw6Img,
+      ovaw7Img,
+      ovaw8Img,
+
+    ],
+    previewImages: [
+      ovaw1Img
+    ]
   },
   {
     id: "sarah-salola-lub-dta-fan",
@@ -187,7 +209,7 @@ export const works: Work[] = [
     tags: ["colorist"],
     image: phuImg,
     contentType: "video",
-    vimeoId: 1178229983
+    vimeoId: 1178233230
   },
   {
     id: "everything-olin-mattiblue",

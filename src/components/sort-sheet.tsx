@@ -39,6 +39,13 @@ export function SortSheet() {
           <div className="flex flex-col items-center space-y-16 select-none -translate-y-5">
             <Button
               variant="ghost"
+              onClick={() => handleSelectRole("director")}
+              className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
+            >
+              Director
+            </Button>
+            <Button
+              variant="ghost"
               onClick={() => handleSelectRole("art-director")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >

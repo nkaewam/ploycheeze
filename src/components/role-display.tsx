@@ -11,6 +11,7 @@ export function RoleDisplay() {
   }
 
   const roleMap: Record<string, string> = {
+    "director": "Director",
     "art-director": "Art Director",
     "cinematographer": "Cinematographer",
     "photographer": "Photographer",
