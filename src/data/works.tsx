@@ -34,6 +34,7 @@ import veinsAndWiresImg from "@/assets/gallery/ovaw.png"
 import sarahImg from "@/assets/gallery/sarah.png"
 import seriousBaconImg from "@/assets/gallery/seriousbacon.png"
 import tippsyImg from "@/assets/gallery/tippsy.png"
+import phuImg from "@/assets/gallery/phu.png"
 
 export type Work = {
   id: string;
@@ -175,6 +176,20 @@ export const works: Work[] = [
     vimeoId: 1147292872
   },
   {
+    id: "phutatchai-phayayam",
+    title: (
+      <p>
+        <span className="font-anakotmai font-light">พยายาม</span> - PHUTATCHAI
+      </p>
+    ),
+    subtitle: "Bus Cover Project",
+    role: "Colorist",
+    tags: ["colorist"],
+    image: phuImg,
+    contentType: "video",
+    vimeoId: 1178229983
+  },
+  {
     id: "everything-olin-mattiblue",
     title: "Everything - Olin Mattiblue",
     subtitle: "Official MV",
@@ -211,5 +226,6 @@ export const works: Work[] = [
     image: tippsyImg,
     contentType: "video",
     vimeoId: 872268862
-  }
+  },
+
 ]

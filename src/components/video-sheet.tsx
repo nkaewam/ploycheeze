@@ -62,14 +62,11 @@ export function VideoSheet() {
             <div className="flex flex-col">
               <h3
                 className="text-xl font-normal tracking-tight md:text-2xl"
-                dangerouslySetInnerHTML={{ __html: data?.title || "" }}
+              >{data?.title}</h3>
+              <div
+                className="mt-1 text-sm text-foreground/80"
+                dangerouslySetInnerHTML={{ __html: data?.subtitle || "" }}
               />
-              {data?.subtitle && (
-                <div
-                  className="mt-1 text-sm text-foreground/80"
-                  dangerouslySetInnerHTML={{ __html: data.subtitle }}
-                />
-              )}
             </div>
             <p className="text-base text-muted-foreground lowercase">
               {data?.role}
