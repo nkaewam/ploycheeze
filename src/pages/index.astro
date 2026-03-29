@@ -8,7 +8,13 @@ import CatalogSection from "@/components/sections/catalog-section.astro"
 
 <Layout>
   <Navigation />
-  <HeroSection />
+  
+  <div class="sticky top-0 h-screen w-full -z-10">
+    <HeroSection />
+  </div>
+  
   <!-- <StandardSkinSection /> -->
-  <CatalogSection />
+  <div class="relative z-10 bg-background">
+    <CatalogSection />
+  </div>
 </Layout>
