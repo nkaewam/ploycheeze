@@ -1,0 +1,187 @@
+---
+import { works } from "@/data/works"
+import { Image } from "astro:assets"
+---
+
+<div
+  id="timeline-wrapper"
+  class="relative h-[300vh] w-full bg-background text-foreground"
+>
+  <div
+    class="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden"
+  >
+    <!-- Timeline Container -->
+    <div
+      id="timeline-container"
+      class="z-10 flex h-full w-max items-center gap-8 px-[50vw] will-change-transform md:gap-16"
+    >
+      {
+        works.map((work, index) => (
+          <div
+            class="timeline-item group relative flex h-[40vh] w-[70vw] max-w-lg flex-none origin-center flex-col items-center justify-center"
+            data-index={index}
+          >
+            <div class="image-wrapper relative h-full w-full overflow-hidden transition-transform duration-100 ease-linear">
+              <Image
+                src={work.image}
+                alt={work.title}
+                class="h-full w-full object-cover filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
+              />
+            </div>
+            <div class="item-info pointer-events-none absolute -bottom-24 w-full text-center whitespace-nowrap opacity-0 transition-opacity duration-300 md:-bottom-20">
+              <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
+                {work.title}
+              </h3>
+              {work.subtitle && (
+                <div class="mt-1 text-sm opacity-80">{work.subtitle}</div>
+              )}
+              {work.role && (
+                <p class="mt-2 text-xs tracking-widest text-muted-foreground uppercase">
+                  {work.role}
+                </p>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Ticks & fixed center marker -->
+    <div
+      class="pointer-events-none absolute bottom-8 left-0 z-20 w-full md:bottom-12"
+    >
+      <!-- Fixed center marker -->
+      <div
+        class="absolute bottom-0 left-1/2 h-16 w-px -translate-x-1/2 bg-foreground shadow-[0_0_10px_rgba(255,255,255,0.5)]"
+      >
+      </div>
+
+      <!-- Ticks container -->
+      <div class="relative h-4 w-full overflow-hidden opacity-30">
+        <div
+          id="ticks-container"
+          class="absolute top-0 left-0 h-full w-full"
+          style="background-image: repeating-linear-gradient(to right, currentColor 0, currentColor 1px, transparent 1px, transparent 1.5vw);"
+        >
+        </div>
+      </div>
+
+      <div
+        class="mt-4 text-center font-mono text-xs tracking-[0.4em] uppercase opacity-50"
+        id="timeline-year"
+      >
+        SELECTED WORKS
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Add a self-executing init block for Astro
+  document.addEventListener("DOMContentLoaded", initTimeline)
+
+  // Also run on page load just in case
+  initTimeline()
+
+  function initTimeline() {
+    const wrapper = document.getElementById(
+      "timeline-wrapper"
+    ) as HTMLElement | null
+    const container = document.getElementById(
+      "timeline-container"
+    ) as HTMLElement | null
+    const items = document.querySelectorAll(".timeline-item")
+    const ticks = document.getElementById(
+      "ticks-container"
+    ) as HTMLElement | null
+
+    if (wrapper && container && items.length > 0) {
+      let ticking = false
+
+      function updateTimeline() {
+        if (!wrapper || !container) return
+
+        const rect = wrapper.getBoundingClientRect()
+        // rect.top is the position of the sticky wrapper relative to the viewport
+        const maxScroll = wrapper.offsetHeight - window.innerHeight
+        let scrolled = -rect.top
+
+        if (scrolled < 0) scrolled = 0
+        if (scrolled > maxScroll) scrolled = maxScroll
+
+        const progress = scrolled / maxScroll
+
+        // Calculate max translation X based on inner content width vs window width
+        const maxTranslateX = container.scrollWidth - window.innerWidth
+        const currentTranslateX = -maxTranslateX * progress
+
+        // Use translate3d for hardware acceleration
+        container.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
+
+        if (ticks) {
+          // Slide the background image to simulate continuous moving ticks
+          ticks.style.backgroundPosition = `${currentTranslateX}px 0`
+        }
+
+        // Determine which item is at the center
+        const windowCenter = window.innerWidth / 2
+
+        items.forEach((item) => {
+          const itemRect = (item as HTMLElement).getBoundingClientRect()
+          const itemCenterInWorld = itemRect.left + itemRect.width / 2
+          const distFromCenter = Math.abs(windowCenter - itemCenterInWorld)
+
+          const activationZone = window.innerWidth * 0.4
+          let scale = 1
+          let itemOpacity = 0.3
+
+          if (distFromCenter < activationZone) {
+            const normalizedDist = distFromCenter / activationZone // 0 (center) to 1 (edge)
+
+            // smooth curve for scale: 1 -> 1.15
+            const easeOut = 1 - Math.pow(normalizedDist, 2)
+            scale = 1 + 0.15 * Math.max(0, easeOut)
+
+            // opacity curve: 0.3 -> 1.0
+            itemOpacity = 0.3 + 0.7 * Math.max(0, easeOut)
+          }
+
+          const imageWrapper = item.querySelector(
+            ".image-wrapper"
+          ) as HTMLElement
+          if (imageWrapper) {
+            imageWrapper.style.transform = `scale(${scale})`
+            imageWrapper.style.opacity = itemOpacity.toString()
+          }
+
+          const info = item.querySelector(".item-info") as HTMLElement
+          if (info) {
+            if (distFromCenter < window.innerWidth * 0.15) {
+              info.style.opacity = "1"
+              info.style.transform = "translate3d(0, 0, 0)"
+            } else {
+              info.style.opacity = "0"
+              info.style.transform = "translate3d(0, 15px, 0)"
+            }
+          }
+        })
+
+        ticking = false
+      }
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!ticking) {
+            window.requestAnimationFrame(updateTimeline)
+            ticking = true
+          }
+        },
+        { passive: true }
+      )
+
+      window.addEventListener("resize", updateTimeline)
+      updateTimeline() // run once on init
+    }
+  }
+</script>
