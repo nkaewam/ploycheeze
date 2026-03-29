@@ -1,6 +1,7 @@
 ---
 import { works } from "@/data/works"
 import { Image } from "astro:assets"
+import grain from "@/assets/grain.gif"
 ---
 
 <div
@@ -11,6 +12,13 @@ import { Image } from "astro:assets"
   <div
     class="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden"
   >
+    <!-- Film Grain Overlay -->
+    <div
+      class="grain-overlay pointer-events-none absolute inset-0 z-0 scale-110 opacity-[0.05] mix-blend-overlay"
+      style={`background-image: url(${grain.src}); background-repeat: repeat;`}
+    >
+    </div>
+
     <!-- Timeline Container -->
     <div
       id="timeline-container"
@@ -38,7 +46,7 @@ import { Image } from "astro:assets"
                 class="info-left text-left transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
                 style="opacity: 0; transform: translate3d(0, -20px, 0);"
               >
-                <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
+                <h3 class="text-xl font-normal tracking-tight md:text-2xl">
                   {work.title}
                 </h3>
                 {work.subtitle && (
@@ -52,7 +60,7 @@ import { Image } from "astro:assets"
                 style="opacity: 0; transform: translate3d(0, -20px, 0);"
               >
                 {work.role && (
-                  <p class="pt-1 text-xs tracking-widest text-muted-foreground uppercase">
+                  <p class="pt-1 text-base text-muted-foreground lowercase">
                     {work.role}
                   </p>
                 )}
@@ -85,7 +93,7 @@ import { Image } from "astro:assets"
       </div>
 
       <div
-        class="mt-4 pb-8 text-center font-mono text-xs tracking-[0.4em] uppercase opacity-50"
+        class="mt-4 pb-8 text-center text-base lowercase opacity-50"
         id="timeline-year"
       >
         SELECTED WORKS

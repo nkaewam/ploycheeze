@@ -52,8 +52,8 @@ export const works: Work[] = [
   },
   {
     id: 6,
-    title: "Price & Prejudice",
-    subtitle: ": In Her Room(2023)",
+    title: "Pride & Prejudice",
+    subtitle: ": In Her Room",
     role: "Photographer",
     image: pnpImg,
   },

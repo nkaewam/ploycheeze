@@ -4,21 +4,20 @@ import Navigation from "@/components/navigation.astro"
 import HeroSection from "@/components/sections/hero-section.astro"
 import StandardSkinSection from "@/components/sections/standard-skin-section.astro"
 import TimelineSection from "@/components/sections/timeline-section.astro"
+import CatalogSection from "@/components/sections/catalog-section.astro"
 // import CatalogSection from "@/components/sections/catalog-section.astro"
 ---
 
 <Layout>
   <Navigation />
-  
-  <div class="sticky top-0 h-screen w-full -z-10">
+
+  <div class="sticky top-0 -z-10 h-screen w-full">
     <HeroSection />
   </div>
-  
+
   <div class="relative z-10 bg-background shadow-2xl">
     <!-- Portfolio timeline horizontal scrolling -->
     <TimelineSection />
-
-    <!-- We can still add StandardSkinSection or others later if needed -->
-    <!-- <StandardSkinSection /> -->
+    <!-- <CatalogSection /> -->
   </div>
 </Layout>
