@@ -5,7 +5,8 @@ import { Image } from "astro:assets"
 
 <div
   id="timeline-wrapper"
-  class="relative h-[300vh] w-full bg-background text-foreground"
+  class="relative w-full bg-background text-foreground"
+  style="min-height: 300vh;"
 >
   <div
     class="sticky top-0 flex h-screen w-full flex-col justify-center overflow-hidden"
@@ -28,18 +29,21 @@ import { Image } from "astro:assets"
                 class="h-full w-full object-cover filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
               />
             </div>
-            <div class="item-info pointer-events-none absolute w-full text-center whitespace-nowrap opacity-0 transition-opacity duration-300">
-              <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
-                {work.title}
-              </h3>
-              {work.subtitle && (
-                <div class="mt-1 text-sm opacity-80">{work.subtitle}</div>
-              )}
-              {work.role && (
-                <p class="mt-2 text-xs tracking-widest text-muted-foreground uppercase">
-                  {work.role}
-                </p>
-              )}
+            
+            <div class="pointer-events-none absolute left-0 top-full mt-6 flex w-full justify-between md:mt-8">
+              <div class="info-left text-left transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" style="opacity: 0; transform: translate3d(0, 20px, 0);">
+                <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
+                  {work.title}
+                </h3>
+                {work.subtitle && <div class="mt-1 text-sm text-foreground/80">{work.subtitle}</div>}
+              </div>
+              <div class="info-right text-right transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] delay-75" style="opacity: 0; transform: translate3d(0, 20px, 0);">
+                {work.role && (
+                  <p class="pt-1 text-xs tracking-widest text-muted-foreground uppercase">
+                    {work.role}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         ))
@@ -77,6 +81,22 @@ import { Image } from "astro:assets"
 </div>
 
 <script>
+  // ==========================================
+  // CONFIGURATION
+  // ==========================================
+  // Controls how responsive the timeline is while you are actively scrolling (higher = faster start, snappier)
+  const SCROLL_EASE_ACTIVE = 0.2
+  // Controls the inertia/smoothness when you stop scrolling (lower = longer, floating stop)
+  const SCROLL_EASE_REST = 0.2
+  // How much you have to physically scroll to move the timeline.
+  // 1.0 = normal horizontal swipe distance
+  // 1.5 = heavier friction (takes 50% more scrolling to get across)
+  const SCROLL_FRICTION = 1.25
+  // The size of the image when perfectly centered (1.15 = 115%)
+  const FOCUSED_SCALE = 1.15
+  // The size of the images that are not perfectly centered (1.0 = 100%)
+  const UNFOCUSED_SCALE = 0.85
+
   // Add a self-executing init block for Astro
   document.addEventListener("DOMContentLoaded", initTimeline)
 
@@ -96,10 +116,18 @@ import { Image } from "astro:assets"
     ) as HTMLElement | null
 
     if (wrapper && container && items.length > 0) {
-      let ticking = false
+      let targetTranslateX = 0
+      let currentTranslateX = 0
+      let currentEase = SCROLL_EASE_REST
+      let isUpdating = false
 
-      function updateTimeline() {
+      function calculateScroll() {
         if (!wrapper || !container) return
+
+        // Dynamically set the height of the wrapper to control how much scrolling is required
+        // By multiplying the container's width by our friction variable, we stretch the scroll distance!
+        const scrollDistance = container.scrollWidth * SCROLL_FRICTION
+        wrapper.style.height = `${scrollDistance}px`
 
         const rect = wrapper.getBoundingClientRect()
         // rect.top is the position of the sticky wrapper relative to the viewport
@@ -111,11 +139,41 @@ import { Image } from "astro:assets"
 
         const progress = scrolled / maxScroll
 
-        // Calculate max translation X based on inner content width vs window width
+        // Calculate target translation X based on inner content width vs window width
         const maxTranslateX = container.scrollWidth - window.innerWidth
-        const currentTranslateX = -maxTranslateX * progress
+        targetTranslateX = -maxTranslateX * progress
 
-        // Use translate3d for hardware acceleration
+        // Give it an immediate snappy "kick" by using the active ease factor while the user scrolls
+        currentEase = SCROLL_EASE_ACTIVE
+
+        if (!isUpdating) {
+          isUpdating = true
+          requestAnimationFrame(renderLoop)
+        }
+      }
+
+      function renderLoop() {
+        if (!container) return
+
+        // Relax the ease factor smoothly back down to the resting/floating state
+        currentEase += (SCROLL_EASE_REST - currentEase) * 0.08
+
+        // Lerp easing towards the true scroll target using our dynamic inertia
+        currentTranslateX +=
+          (targetTranslateX - currentTranslateX) * currentEase
+
+        // Stop animation if we are very close to the target to save battery/CPU
+        if (
+          0.1 > Math.abs(targetTranslateX - currentTranslateX) &&
+          0.01 > Math.abs(currentEase - SCROLL_EASE_REST)
+        ) {
+          currentTranslateX = targetTranslateX
+          isUpdating = false
+        } else {
+          requestAnimationFrame(renderLoop)
+        }
+
+        // Apply hardware-accelerated transform
         container.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
 
         if (ticks) {
@@ -132,18 +190,17 @@ import { Image } from "astro:assets"
           const distFromCenter = Math.abs(windowCenter - itemCenterInWorld)
 
           const activationZone = window.innerWidth * 0.4
-          let scale = 1
-          let itemOpacity = 0.3
+          let scale = UNFOCUSED_SCALE
 
           if (distFromCenter < activationZone) {
-            const normalizedDist = distFromCenter / activationZone // 0 (center) to 1 (edge)
+            // 0 (center) to 1 (edge)
+            const normalizedDist = distFromCenter / activationZone
 
-            // smooth curve for scale: 1 -> 1.15
+            // smooth ease-out curve interpolates from UNFOCUSED_SCALE to FOCUSED_SCALE
             const easeOut = 1 - Math.pow(normalizedDist, 2)
-            scale = 1 + 0.15 * Math.max(0, easeOut)
-
-            // opacity curve: 0.3 -> 1.0
-            itemOpacity = 0.3 + 0.7 * Math.max(0, easeOut)
+            scale =
+              UNFOCUSED_SCALE +
+              (FOCUSED_SCALE - UNFOCUSED_SCALE) * Math.max(0, easeOut)
           }
 
           const imageWrapper = item.querySelector(
@@ -151,37 +208,40 @@ import { Image } from "astro:assets"
           ) as HTMLElement
           if (imageWrapper) {
             imageWrapper.style.transform = `scale(${scale})`
-            imageWrapper.style.opacity = itemOpacity.toString()
           }
 
-          const info = item.querySelector(".item-info") as HTMLElement
-          if (info) {
-            if (distFromCenter < window.innerWidth * 0.15) {
-              info.style.opacity = "1"
-              info.style.transform = "translate3d(0, 0, 0)"
-            } else {
-              info.style.opacity = "0"
-              info.style.transform = "translate3d(0, 15px, 0)"
+          const infoLeft = item.querySelector(".info-left") as HTMLElement
+          const infoRight = item.querySelector(".info-right") as HTMLElement
+          
+          if (distFromCenter < window.innerWidth * 0.15) {
+            if (infoLeft) {
+              infoLeft.style.opacity = "1"
+              infoLeft.style.transform = "translate3d(0, 0, 0)"
+            }
+            if (infoRight) {
+              infoRight.style.opacity = "1"
+              infoRight.style.transform = "translate3d(0, 0, 0)"
+            }
+          } else {
+            if (infoLeft) {
+              infoLeft.style.opacity = "0"
+              infoLeft.style.transform = "translate3d(0, 20px, 0)"
+            }
+            if (infoRight) {
+              infoRight.style.opacity = "0"
+              infoRight.style.transform = "translate3d(0, 20px, 0)"
             }
           }
         })
-
-        ticking = false
       }
 
-      window.addEventListener(
-        "scroll",
-        () => {
-          if (!ticking) {
-            window.requestAnimationFrame(updateTimeline)
-            ticking = true
-          }
-        },
-        { passive: true }
-      )
+      window.addEventListener("scroll", calculateScroll, { passive: true })
+      window.addEventListener("resize", calculateScroll)
 
-      window.addEventListener("resize", updateTimeline)
-      updateTimeline() // run once on init
+      // Initial layout setup
+      calculateScroll()
+      currentTranslateX = targetTranslateX // skip easing on load
+      renderLoop()
     }
   }
 </script>
