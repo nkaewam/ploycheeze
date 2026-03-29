@@ -9,7 +9,7 @@ export function CatalogGrid() {
   const role = useStore(selectedRole);
 
   const filteredWorks = role
-    ? works.filter(w => w.role.toLowerCase().includes(role.toLowerCase()))
+    ? works.filter(w => w.tags.includes(role))
     : works;
 
   return (
@@ -23,7 +23,7 @@ export function CatalogGrid() {
         <div key={work.id} className="group mx-auto flex h-full min-h-0 w-fit max-w-full cursor-pointer flex-col justify-start space-y-2">
           <img
             src={work.image.src}
-            alt={work.title}
+            alt={work.id}
             className="aspect-2560/1600 w-full object-contain"
           />
 

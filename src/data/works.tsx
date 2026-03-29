@@ -19,16 +19,20 @@ import pnp1Img from "@/assets/gallery/pnp/pnp-1.jpg"
 import pnp2Img from "@/assets/gallery/pnp/pnp-2.jpg"
 import pnp3Img from "@/assets/gallery/pnp/pnp-3.jpg"
 
+import everythingImg from "@/assets/gallery/everything.png"
 import rollerCoasterImg from "@/assets/gallery/rc.png"
 import pnpImg from "@/assets/gallery/p&p.png"
 import veinsAndWiresImg from "@/assets/gallery/ovaw.png"
 import sarahImg from "@/assets/gallery/sarah.png"
+import seriousBaconImg from "@/assets/gallery/seriousbacon.png"
+import tippsyImg from "@/assets/gallery/tippsy.png"
 
 export type Work = {
-  id: number;
-  title: string;
+  id: string;
+  title: ReactNode;
   subtitle?: ReactNode;
   role: string;
+  tags: string[];
   image: ImageMetadata;
 } & ({
   contentType: "video";
@@ -40,10 +44,11 @@ export type Work = {
 
 export const works: Work[] = [
   {
-    id: 1,
+    id: "blumo",
     title: "Blumo",
     contentType: "photo",
     role: "Photographer",
+    tags: ["photographer"],
     image: blumoFeaturedImg,
     subImages: [
       blumo1Img,
@@ -53,28 +58,31 @@ export const works: Work[] = [
     ]
   },
   {
-    id: 2,
+    id: "standard-skin-clinic-be-your-own-standard",
     title: "Standard Skin Clinic",
     subtitle: "Be your own standard",
     role: "Director / Cinematographer",
+    tags: ["director", "cinematographer"],
     image: standardBeUrOwnStandardImg,
     contentType: "video",
     vimeoId: 1147291392
   },
   {
-    id: 3,
+    id: "standard-skin-clinic-be-bold-be-you",
     title: "Standard Skin Clinic",
     subtitle: "Be Bold, Be You",
     role: "Director / Cinematographer",
+    tags: ["director", "cinematographer"],
     image: standardBeBoldBeUImg,
     contentType: "video",
     vimeoId: 1147292872
   },
   {
-    id: 4,
+    id: "standard-skin-clinic",
     title: "Standard Skin Clinic",
     role: "Art Director",
     contentType: "photo",
+    tags: ["art-director"],
     image: standardSkinFeaturedImg,
     subImages: [
       standard1Img,
@@ -84,18 +92,20 @@ export const works: Work[] = [
     ]
   },
   {
-    id: 5,
+    id: "roller-coaster-the-series",
     title: "Roller Coaster the series",
     role: "Cinematographer",
+    tags: ["cinematographer"],
     image: rollerCoasterImg,
     contentType: "video",
     vimeoId: 1134218638
   },
   {
-    id: 6,
+    id: "pride-and-prejudice-in-her-room",
     title: "Pride & Prejudice",
     subtitle: ": In Her Room",
     role: "Photographer",
+    tags: ["photographer"],
     image: pnpFeaturedImg,
     contentType: "photo",
     subImages: [
@@ -106,24 +116,64 @@ export const works: Work[] = [
     ]
   },
   {
-    id: 7,
+    id: "of-veins-and-wires",
     title: "Of Veins and Wires",
     role: "Cinematographer",
+    tags: ["cinematographer"],
     image: veinsAndWiresImg,
     contentType: "video",
     vimeoId: 1147292872
   },
   {
-    id: 8,
-    title: "Official MV",
-    subtitle: (
+    id: "sarah-salola-lub-dta-fan",
+    title: (
       <p>
         <span className="font-anakotmai font-light">หลับตาฝัน</span> - Sarah Salola
       </p>
     ),
+    subtitle: "Official MV",
     role: "Cinematographer",
+    tags: ["cinematographer"],
     image: sarahImg,
     contentType: "video",
     vimeoId: 1147292872
+  },
+  {
+    id: "everything-olin-mattiblue",
+    title: "Everything - Olin Mattiblue",
+    subtitle: "Official MV",
+    role: "Cinematographer",
+    contentType: "video",
+    vimeoId: 1048869597,
+    tags: ["cinematographer"],
+    image: everythingImg
+  },
+  {
+    id: "serious-bacon-khrai-thing-khrai-kon",
+    title: (
+      <p>
+        <span className="font-anakotmai font-light">ใครทิ้งใครก่อน</span> - Serious Bacon
+      </p>
+    ),
+    subtitle: "Official MV",
+    role: "Cinematographer",
+    tags: ["cinematographer"],
+    image: seriousBaconImg,
+    contentType: "video",
+    vimeoId: 878768359
+  },
+  {
+    id: "tippsy-phleng-thi-rao-khoei-fang-duai-kan",
+    title: (
+      <p>
+        <span className="font-anakotmai font-light">เพลงที่เราเคยฟังด้วยกัน</span> - Tippsy
+      </p>
+    ),
+    subtitle: "Official MV",
+    role: "Cinematographer",
+    tags: ["cinematographer"],
+    image: tippsyImg,
+    contentType: "video",
+    vimeoId: 872268862
   }
 ]

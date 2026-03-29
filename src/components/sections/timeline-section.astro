@@ -1,10 +1,10 @@
 ---
 import { works } from "@/data/works"
-import { Image } from "astro:assets"
 import { MouseScrollIcon } from "@phosphor-icons/react"
 import grain from "@/assets/grain.gif"
 import { RoleDisplay } from "../role-display"
 import { VideoSheet } from "../video-sheet"
+import { WorkCard } from "../work-card"
 ---
 
 <style>
@@ -60,68 +60,7 @@ import { VideoSheet } from "../video-sheet"
     >
       {
         works.map((work, index) => (
-          <div
-            class={`timeline-item group relative flex w-auto flex-none origin-center flex-col items-center justify-center ${work.contentType === "photo" ? "has-sub-images" : "has-video cursor-pointer"}`}
-            data-index={index}
-            data-type={work.contentType}
-            data-vimeo-id={
-              work.contentType === "video" ? work.vimeoId : undefined
-            }
-            style={
-              work.contentType === "photo"
-                ? `--sub-count: ${work.subImages.length};`
-                : ""
-            }
-          >
-            <div class="image-wrapper relative h-auto w-auto overflow-hidden transition-transform duration-100 ease-out">
-              <Image
-                src={work.image}
-                alt={work.title}
-                class="main-image max-h-[40vh] w-auto object-contain filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
-              />
-              {work.contentType === "photo" && (
-                <div class="sub-images-container absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  {work.subImages.map((subImg, subIdx) => (
-                    <Image
-                      src={subImg}
-                      alt={`${work.title} sub ${subIdx}`}
-                      class="sub-image absolute inset-0 h-full w-full object-contain"
-                      style={`--sub-index: ${subIdx};`}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div
-              class="text-container pointer-events-none absolute top-full mt-8 flex justify-between"
-              style="width: 100%; left: 0%;"
-            >
-              <div
-                class="info-left text-left transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style="opacity: 0; transform: translate3d(0, -20px, 0);"
-              >
-                <h3 class="text-xl font-normal tracking-tight md:text-2xl">
-                  {work.title}
-                </h3>
-                {work.subtitle && (
-                  <div class="mt-1 text-sm text-foreground/80">
-                    {work.subtitle}
-                  </div>
-                )}
-              </div>
-              <div
-                class="info-right text-right transition-all delay-100 duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style="opacity: 0; transform: translate3d(0, -20px, 0);"
-              >
-                {work.role && (
-                  <p class="pt-1 text-base text-muted-foreground lowercase">
-                    {work.role}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
+          <WorkCard client:load workId={work.id} index={index} />
         ))
       }
     </div>
@@ -161,6 +100,7 @@ import { VideoSheet } from "../video-sheet"
 </div>
 
 <script>
+  import { selectedRole } from "@/lib/store"
   // ==========================================
   // CONFIGURATION
   // ==========================================
@@ -169,6 +109,7 @@ import { VideoSheet } from "../video-sheet"
   const SCROLL_EASE_ACTIVE = 0.2
   const SCROLL_EASE_REST = 0.2
   const SCROLL_FRICTION = 1.25
+  const INITIAL_SCROLL_BUFFER_VH = 0.5 // Room to scroll down before panning starts (50vh)
 
   // 2. IMAGE SCALING
   const FOCUSED_SCALE = 1.15
@@ -204,31 +145,74 @@ import { VideoSheet } from "../video-sheet"
       "ticks-container"
     ) as HTMLElement | null
 
-    if (wrapper && container && items.length > 0) {
+    if (
+      wrapper &&
+      container &&
+      document.querySelectorAll(".timeline-item").length > 0
+    ) {
       let targetTranslateX = 0
       let currentTranslateX = 0
       let currentEase = SCROLL_EASE_REST
       let isUpdating = false
-
       let lastCenterIdx = -1
+      let lastProgress = 0
+
+      // get visible items dynamically
+      let items = Array.from(
+        document.querySelectorAll(".timeline-item:not(.hidden)")
+      )
+
+      let isFirstRun = true
+      selectedRole.subscribe(() => {
+        // Wait a small tick for React WorkCard's styling update to apply
+        setTimeout(() => {
+          items = Array.from(
+            document.querySelectorAll(".timeline-item:not(.hidden)")
+          )
+
+          // Must call calculateScroll first to update wrapper height
+          calculateScroll()
+
+          if (isFirstRun) {
+            isFirstRun = false
+            return
+          }
+
+          if (wrapper && container) {
+            const initialBuffer = window.innerHeight * INITIAL_SCROLL_BUFFER_VH
+            const wrapperTop =
+              wrapper.getBoundingClientRect().top + window.scrollY
+            window.scrollTo({
+              top: wrapperTop + initialBuffer,
+              behavior: "auto",
+            })
+          }
+        }, 50)
+      })
 
       function calculateScroll() {
         if (!wrapper || !container) return
 
+        const initialBuffer = window.innerHeight * INITIAL_SCROLL_BUFFER_VH
+
         // Dynamically set the height of the wrapper to control how much scrolling is required
         // By multiplying the container's width by our friction variable, we stretch the scroll distance!
-        const scrollDistance = container.scrollWidth * SCROLL_FRICTION
+        const scrollDistance =
+          container.scrollWidth * SCROLL_FRICTION + initialBuffer
         wrapper.style.height = `${scrollDistance}px`
 
         const rect = wrapper.getBoundingClientRect()
         // rect.top is the position of the sticky wrapper relative to the viewport
-        const maxScroll = wrapper.offsetHeight - window.innerHeight
-        let scrolled = -rect.top
+        const totalScrollable = wrapper.offsetHeight - window.innerHeight
+        const maxScroll = totalScrollable - initialBuffer
+
+        let scrolled = -rect.top - initialBuffer
 
         if (scrolled < 0) scrolled = 0
         if (scrolled > maxScroll) scrolled = maxScroll
 
-        const progress = scrolled / maxScroll
+        const progress = maxScroll > 0 ? scrolled / maxScroll : 0
+        lastProgress = progress
 
         // Calculate target translation X based on inner content width vs window width
         const maxTranslateX = container.scrollWidth - window.innerWidth
@@ -390,76 +374,6 @@ import { VideoSheet } from "../video-sheet"
           }
         })
       }
-
-      // ==========================================
-      // SUB-IMAGES SLIDESHOW LOGIC
-      // ==========================================
-      items.forEach((item) => {
-        const subImages = item.querySelectorAll(
-          ".sub-image"
-        ) as NodeListOf<HTMLElement>
-        if (subImages.length > 0) {
-          let slideTimer: any = null
-          let currentIdx = -1
-
-          const showNext = () => {
-            currentIdx = (currentIdx + 1) % subImages.length
-            subImages.forEach((img, i) => {
-              if (i === currentIdx) {
-                img.style.opacity = "1"
-                img.style.zIndex = "20"
-              } else {
-                img.style.opacity = "0"
-                img.style.zIndex = "1"
-              }
-            })
-          }
-
-          item.addEventListener("mouseenter", () => {
-            currentIdx = 0
-            subImages.forEach((img, i) => {
-              img.style.opacity = i === 0 ? "1" : "0"
-              img.style.zIndex = i === 0 ? "20" : "1"
-            })
-            slideTimer = setInterval(showNext, 1500)
-          })
-
-          item.addEventListener("mouseleave", () => {
-            if (slideTimer) clearInterval(slideTimer)
-            subImages.forEach((img) => {
-              img.style.opacity = "0"
-            })
-            currentIdx = -1
-          })
-        }
-      })
-
-      // ==========================================
-      // VIDEO SHEET LOGIC
-      // ==========================================
-      items.forEach((item) => {
-        const type = item.getAttribute("data-type")
-        if (type === "video") {
-          item.addEventListener("click", () => {
-            const vimeoId = item.getAttribute("data-vimeo-id")
-            if (vimeoId) {
-              const titleEl = item.querySelector("h3")
-              const subtitleEl = item.querySelector(".info-left .mt-1.text-sm")
-              const roleEl = item.querySelector(".info-right p")
-
-              const event = new CustomEvent("open-video-sheet", {
-                detail: {
-                  vimeoId,
-                  title: titleEl ? titleEl.innerHTML : "",
-                  subtitle: subtitleEl ? subtitleEl.innerHTML : "",
-                  role: roleEl ? roleEl.innerHTML : "",
-                },
-              })
-              window.dispatchEvent(event)
-            }
-          })
-        }
-      })
 
       window.addEventListener("scroll", calculateScroll, { passive: true })
       window.addEventListener("resize", calculateScroll)

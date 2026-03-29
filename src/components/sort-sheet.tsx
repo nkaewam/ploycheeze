@@ -39,38 +39,31 @@ export function SortSheet() {
           <div className="flex flex-col items-center space-y-16 select-none -translate-y-5">
             <Button
               variant="ghost"
-              onClick={() => handleSelectRole("Art Director")}
+              onClick={() => handleSelectRole("art-director")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >
               Art Director
             </Button>
             <Button
               variant="ghost"
-              onClick={() => handleSelectRole("Cinematographer")}
+              onClick={() => handleSelectRole("cinematographer")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >
               Cinematographer
             </Button>
             <Button
               variant="ghost"
-              onClick={() => handleSelectRole("Photographer")}
+              onClick={() => handleSelectRole("photographer")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >
               Photographer
             </Button>
             <Button
               variant="ghost"
-              onClick={() => handleSelectRole("Colorist")}
+              onClick={() => handleSelectRole("colorist")}
               className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
             >
               Colorist
-            </Button>
-            <Button
-              variant="ghost"
-              onClick={() => handleSelectRole("2nd Camera")}
-              className="text-7xl font-light tracking-tight hover:bg-transparent hover:underline decoration-4 underline-offset-4 transition-all cursor-pointer outline-none"
-            >
-              2nd Camera
             </Button>
           </div>
         </SheetContent>
