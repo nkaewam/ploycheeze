@@ -35,8 +35,8 @@ import { Image } from "astro:assets"
               style="width: 100%; left: 0%;"
             >
               <div
-                class="info-left text-left transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style="opacity: 0; transform: translate3d(0, 20px, 0);"
+                class="info-left text-left transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style="opacity: 0; transform: translate3d(0, -20px, 0);"
               >
                 <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
                   {work.title}
@@ -48,8 +48,8 @@ import { Image } from "astro:assets"
                 )}
               </div>
               <div
-                class="info-right text-right transition-all delay-75 duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]"
-                style="opacity: 0; transform: translate3d(0, 20px, 0);"
+                class="info-right text-right transition-all delay-100 duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
+                style="opacity: 0; transform: translate3d(0, -20px, 0);"
               >
                 {work.role && (
                   <p class="pt-1 text-xs tracking-widest text-muted-foreground uppercase">
@@ -200,13 +200,24 @@ import { Image } from "astro:assets"
         container.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
 
         if (ticks) {
-          ticks.style.transform = `translate3d(${currentTranslateX}px, 0, 0)`
+          const tickGap = window.innerWidth * TICK_GAP_VW
+          const tickStepSize = 1 + tickGap
+
+          // Dynamically calculate the ticks offset so the first tick aligns exactly with the left edge of the first image
+          let TICK_OFFSET = 0
+          const firstItem = items[0] as HTMLElement
+          if (firstItem) {
+            const distFromCenterToLeftEdge =
+              (firstItem.offsetWidth * FOCUSED_SCALE) / 2
+            TICK_OFFSET = Math.round(distFromCenterToLeftEdge / tickStepSize)
+          }
+
+          ticks.style.transform = `translate3d(${currentTranslateX - TICK_OFFSET * tickStepSize}px, 0, 0)`
 
           const tickElements = ticks.querySelectorAll(".tick")
           if (tickElements.length > 0) {
-            const tickGap = window.innerWidth * TICK_GAP_VW
-            const tickStepSize = 1 + tickGap
-            const centerIdx = Math.round(-currentTranslateX / tickStepSize)
+            const centerIdx =
+              Math.round(-currentTranslateX / tickStepSize) + TICK_OFFSET
 
             if (centerIdx !== lastCenterIdx) {
               // Reset previous active area
@@ -285,11 +296,11 @@ import { Image } from "astro:assets"
           } else {
             if (infoLeft) {
               infoLeft.style.opacity = "0"
-              infoLeft.style.transform = "translate3d(0, 20px, 0)"
+              infoLeft.style.transform = "translate3d(0, -20px, 0)"
             }
             if (infoRight) {
               infoRight.style.opacity = "0"
-              infoRight.style.transform = "translate3d(0, 20px, 0)"
+              infoRight.style.transform = "translate3d(0, -20px, 0)"
             }
           }
         })
