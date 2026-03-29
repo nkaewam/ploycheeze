@@ -13,22 +13,22 @@ import { Image } from "astro:assets"
     <!-- Timeline Container -->
     <div
       id="timeline-container"
-      class="z-10 flex h-full w-max items-center gap-8 px-[50vw] will-change-transform md:gap-16"
+      class="z-10 flex h-full w-max items-center gap-28 px-[50vw] will-change-transform"
     >
       {
         works.map((work, index) => (
           <div
-            class="timeline-item group relative flex h-[40vh] w-[70vw] max-w-lg flex-none origin-center flex-col items-center justify-center"
+            class="timeline-item group relative flex h-[35vh] w-[70vw] max-w-lg flex-none origin-center flex-col items-center justify-center"
             data-index={index}
           >
-            <div class="image-wrapper relative h-full w-full overflow-hidden transition-transform duration-100 ease-linear">
+            <div class="image-wrapper relative h-full w-full overflow-hidden transition-transform duration-100 ease-out">
               <Image
                 src={work.image}
                 alt={work.title}
                 class="h-full w-full object-cover filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
               />
             </div>
-            <div class="item-info pointer-events-none absolute -bottom-24 w-full text-center whitespace-nowrap opacity-0 transition-opacity duration-300 md:-bottom-20">
+            <div class="item-info pointer-events-none absolute w-full text-center whitespace-nowrap opacity-0 transition-opacity duration-300">
               <h3 class="text-xl font-bold tracking-tight uppercase md:text-2xl">
                 {work.title}
               </h3>
