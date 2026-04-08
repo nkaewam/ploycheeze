@@ -79,8 +79,8 @@ export const works: Work[] = [
     id: "blumo",
     title: "Blumo",
     contentType: "photo",
-    role: "Photographer",
-    tags: ["photographer"],
+    role: "Photographer / Art Director",
+    tags: ["photographer", "art-director"],
     image: blumoFeaturedImg,
     previewImages: [blumo1Img, blumo2Img, blumo3Img, blumoFeaturedImg],
     images: [
