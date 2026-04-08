@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from "react"
 // Standard
 import standardSkinFeaturedImg from "@/assets/gallery/standard-skin/featured.png"
 import standard1Img from "@/assets/gallery/standard-skin/std-1.png"
@@ -56,20 +56,23 @@ import phuImg from "@/assets/gallery/phu.png"
 import everythingImg from "@/assets/gallery/everything.png"
 
 export type Work = {
-  id: string;
-  title: ReactNode;
-  subtitle?: ReactNode;
-  role: string;
-  tags: string[];
-  image: ImageMetadata;
-} & ({
-  contentType: "video";
-  vimeoId: number;
-} | {
-  contentType: "photo";
-  previewImages: ImageMetadata[];
-  images: ImageMetadata[];
-})
+  id: string
+  title: ReactNode
+  subtitle?: ReactNode
+  role: string
+  tags: string[]
+  image: ImageMetadata
+} & (
+  | {
+      contentType: "video"
+      vimeoId: number
+    }
+  | {
+      contentType: "photo"
+      previewImages: ImageMetadata[]
+      images: ImageMetadata[]
+    }
+)
 
 export const works: Work[] = [
   {
@@ -79,12 +82,7 @@ export const works: Work[] = [
     role: "Photographer",
     tags: ["photographer"],
     image: blumoFeaturedImg,
-    previewImages: [
-      blumo1Img,
-      blumo2Img,
-      blumo3Img,
-      blumoFeaturedImg
-    ],
+    previewImages: [blumo1Img, blumo2Img, blumo3Img, blumoFeaturedImg],
     images: [
       blumoFeaturedImg,
       blumo1Img,
@@ -94,8 +92,7 @@ export const works: Work[] = [
       blumo5Img,
       blumo6Img,
       blumo7Img,
-
-    ]
+    ],
   },
   {
     id: "standard-skin-clinic-be-your-own-standard",
@@ -105,7 +102,7 @@ export const works: Work[] = [
     tags: ["director", "cinematographer"],
     image: standardBeUrOwnStandardImg,
     contentType: "video",
-    vimeoId: 1147291392
+    vimeoId: 1147291392,
   },
   {
     id: "standard-skin-clinic-be-bold-be-you",
@@ -115,7 +112,7 @@ export const works: Work[] = [
     tags: ["director", "cinematographer"],
     image: standardBeBoldBeUImg,
     contentType: "video",
-    vimeoId: 1147292872
+    vimeoId: 1147292872,
   },
   {
     id: "standard-skin-clinic",
@@ -128,14 +125,9 @@ export const works: Work[] = [
       standard1Img,
       standard2Img,
       standard3Img,
-      standardSkinFeaturedImg
+      standardSkinFeaturedImg,
     ],
-    images: [
-      standard1Img,
-      standard2Img,
-      standard3Img,
-      standardSkinFeaturedImg
-    ]
+    images: [standardSkinFeaturedImg, standard3Img, standard1Img, standard2Img],
   },
   {
     id: "roller-coaster-the-series",
@@ -144,7 +136,7 @@ export const works: Work[] = [
     tags: ["cinematographer"],
     image: rollerCoasterImg,
     contentType: "video",
-    vimeoId: 1134218638
+    vimeoId: 1134218638,
   },
   {
     id: "pride-and-prejudice-in-her-room",
@@ -154,12 +146,7 @@ export const works: Work[] = [
     tags: ["photographer"],
     image: pnpFeaturedImg,
     contentType: "photo",
-    previewImages: [
-      pnp1Img,
-      pnp2Img,
-      pnp3Img,
-      pnpFeaturedImg
-    ],
+    previewImages: [pnp1Img, pnp2Img, pnp3Img, pnpFeaturedImg],
     images: [
       pnp1Img,
       pnp2Img,
@@ -168,8 +155,8 @@ export const works: Work[] = [
       pnp5Img,
       pnp6Img,
       pnp7Img,
-      pnpFeaturedImg
-    ]
+      pnpFeaturedImg,
+    ],
   },
   {
     id: "of-veins-and-wires",
@@ -188,17 +175,15 @@ export const works: Work[] = [
       ovaw6Img,
       ovaw7Img,
       ovaw8Img,
-
     ],
-    previewImages: [
-      ovaw1Img
-    ]
+    previewImages: [ovaw1Img],
   },
   {
     id: "sarah-salola-lub-dta-fan",
     title: (
       <p>
-        <span className="font-anakotmai font-light">หลับตาฝัน</span> - Sarah Salola
+        <span className="font-anakotmai font-light">หลับตาฝัน</span> - Sarah
+        Salola
       </p>
     ),
     subtitle: "Official MV",
@@ -206,9 +191,7 @@ export const works: Work[] = [
     tags: ["cinematographer"],
     image: sarahImg,
     contentType: "photo",
-    previewImages: [
-      sarahImg
-    ],
+    previewImages: [sarahImg],
     images: [
       sarah1Img,
       sarah2Img,
@@ -218,7 +201,7 @@ export const works: Work[] = [
       sarah6Img,
       sarah7Img,
       sarah8Img,
-    ]
+    ],
   },
   {
     id: "phutatchai-phayayam",
@@ -232,7 +215,7 @@ export const works: Work[] = [
     tags: ["colorist"],
     image: phuImg,
     contentType: "video",
-    vimeoId: 1178233230
+    vimeoId: 1178233230,
   },
   {
     id: "everything-olin-mattiblue",
@@ -242,13 +225,14 @@ export const works: Work[] = [
     contentType: "video",
     vimeoId: 1048869597,
     tags: ["cinematographer"],
-    image: everythingImg
+    image: everythingImg,
   },
   {
     id: "serious-bacon-khrai-thing-khrai-kon",
     title: (
       <p>
-        <span className="font-anakotmai font-light">ใครทิ้งใครก่อน</span> - Serious Bacon
+        <span className="font-anakotmai font-light">ใครทิ้งใครก่อน</span> -
+        Serious Bacon
       </p>
     ),
     subtitle: "Official MV",
@@ -256,13 +240,16 @@ export const works: Work[] = [
     tags: ["cinematographer"],
     image: seriousBaconImg,
     contentType: "video",
-    vimeoId: 878768359
+    vimeoId: 878768359,
   },
   {
     id: "tippsy-phleng-thi-rao-khoei-fang-duai-kan",
     title: (
       <p>
-        <span className="font-anakotmai font-light">เพลงที่เราเคยฟังด้วยกัน</span> - Tippsy
+        <span className="font-anakotmai font-light">
+          เพลงที่เราเคยฟังด้วยกัน
+        </span>{" "}
+        - Tippsy
       </p>
     ),
     subtitle: "Official MV",
@@ -270,7 +257,6 @@ export const works: Work[] = [
     tags: ["cinematographer"],
     image: tippsyImg,
     contentType: "video",
-    vimeoId: 872268862
+    vimeoId: 872268862,
   },
-
 ]
