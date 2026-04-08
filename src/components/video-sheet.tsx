@@ -33,17 +33,23 @@ export function VideoSheet() {
       <SheetContent
         side="bottom"
         showCloseButton={false}
-        className="h-[calc(100dvh-7rem)]! max-w-none! focus:outline-0 border-none shadow-none! rounded-none! gap-0 duration-500 data-[side=bottom]:data-ending-style:translate-y-[20rem] data-[side=bottom]:data-starting-style:translate-y-[20rem] overflow-hidden"
+        className="h-[calc(100dvh-7rem)]! max-w-none! gap-0 overflow-hidden rounded-none! border-none shadow-none! duration-500 focus:outline-0 data-[side=bottom]:data-ending-style:translate-y-[20rem] data-[side=bottom]:data-starting-style:translate-y-[20rem]"
       >
-        <div className="relative flex flex-col w-full h-full bg-[#4c5166]/30">
+        <div className="relative flex h-full w-full flex-col bg-[#4c5166]/30">
           <div
-            className="absolute w-full h-full inset-0 z-0 scale-110 opacity-[0.05]"
-            style={{ backgroundImage: `url(${grain.src})`, backgroundRepeat: "repeat" }}
-          >
-          </div>
+            className="absolute inset-0 z-0 h-full w-full scale-110 opacity-[0.05]"
+            style={{
+              backgroundImage: `url(${grain.src})`,
+              backgroundRepeat: "repeat",
+            }}
+          ></div>
           {/* Video */}
-          <div className="flex relative z-10 flex-1 items-center h-[50vh] aspect-video justify-center pt-20">
-            <XIcon size={24} className="absolute top-10 left-10" onClick={() => setIsOpen(false)} />
+          <div className="relative z-10 flex aspect-video w-full flex-1 lg:h-[50vh] lg:w-auto lg:items-center lg:justify-center lg:pt-20">
+            <XIcon
+              size={24}
+              className="absolute top-4 left-4 lg:top-10 lg:left-10"
+              onClick={() => setIsOpen(false)}
+            />
             {isOpen && data?.vimeoId ? (
               <iframe
                 id="vimeo-player"
@@ -58,22 +64,22 @@ export function VideoSheet() {
           </div>
 
           {/* Footer */}
-          <div className="flex relative z-10 items-end justify-between px-8 py-6">
+          <div className="relative z-10 flex flex-col items-end justify-between px-4 py-6 lg:flex-row lg:items-end lg:px-8 lg:py-6">
             <div className="flex flex-col">
-              <h3
-                className="text-xl font-normal tracking-tight md:text-2xl"
-              >{data?.title}</h3>
+              <h3 className="text-right text-xl font-normal tracking-tight md:text-left md:text-2xl">
+                {data?.title}
+              </h3>
               <div
-                className="mt-1 text-sm text-foreground/80"
+                className="mt-1 text-right text-sm text-foreground/80 lg:text-left"
                 dangerouslySetInnerHTML={{ __html: data?.subtitle || "" }}
               />
             </div>
-            <p className="text-base text-muted-foreground lowercase">
+            <p className="text-right text-base text-muted-foreground lowercase lg:text-left">
               {data?.role}
             </p>
           </div>
         </div>
       </SheetContent>
-    </Sheet >
+    </Sheet>
   )
 }

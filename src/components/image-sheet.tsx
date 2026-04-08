@@ -37,43 +37,41 @@ export function ImageSheet() {
         side="bottom"
         showCloseButton={false}
         hideOverlay
-        className="h-[calc(100dvh-7rem)]! max-w-none! focus:outline-0 border-none shadow-none! rounded-none! gap-0 duration-500 data-[side=bottom]:data-ending-style:translate-y-[20rem] data-[side=bottom]:data-starting-style:translate-y-[20rem] overflow-y-scroll"
+        className="h-[calc(100dvh-7rem)]! max-w-none! gap-0 overflow-y-scroll rounded-none! border-none shadow-none! duration-500 focus:outline-0 data-[side=bottom]:data-ending-style:translate-y-[20rem] data-[side=bottom]:data-starting-style:translate-y-[20rem]"
       >
-        <div className="relative flex flex-col w-full h-full pt-10">
-          <div className="px-8 md:px-12 pb-20">
+        <div className="relative flex h-full w-full flex-col pt-10">
+          <div className="px-8 pb-20 md:px-12">
             {/* Project Info */}
-            <div className="flex items-start gap-4 mb-12">
+            <div className="mb-12 flex items-start gap-4">
               <button
                 onClick={() => setIsOpen(false)}
-                className="mt-1.5 hover:opacity-60 transition-opacity"
+                className="mt-1.5 transition-opacity hover:opacity-60"
               >
                 <XIcon size={24} weight="bold" />
               </button>
               <div className="flex flex-col">
-                <div className="flex">
-                  <div className="text-2xl font-normal leading-tight">
+                <div className="flex flex-col md:flex-row">
+                  <div className="text-2xl leading-tight font-normal">
                     {data?.title}
                   </div>
                   {data?.subtitle && (
-                    <div className="text-2xl font-normal">
+                    <div className="text-xl font-normal md:text-2xl">
                       {data.subtitle}
                     </div>
                   )}
                 </div>
-                <p className="text-lg text-black/60 capitalize">
-                  {data?.role}
-                </p>
+                <p className="text-lg text-black/60 capitalize">{data?.role}</p>
               </div>
             </div>
 
             {/* Image Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
               {data?.images.map((img, idx) => (
                 <div key={idx} className="overflow-hidden bg-gray-50">
                   <img
                     src={img.src}
                     alt={`Project image ${idx}`}
-                    className="w-full h-full object-contain"
+                    className="h-full w-full object-contain"
                     loading="lazy"
                   />
                 </div>
