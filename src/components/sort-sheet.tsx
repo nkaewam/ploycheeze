@@ -2,11 +2,7 @@
 
 import * as React from "react"
 import { useStore } from "@nanostores/react"
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "./ui/button"
 import { selectedRole } from "@/lib/store"
 
@@ -27,9 +23,7 @@ export function SortSheet() {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={
-            <button
-              className="block pointer-events-auto font-normal transition-opacity hover:opacity-60 cursor-pointer"
-            >
+            <button className="pointer-events-auto block cursor-pointer font-normal transition-opacity hover:opacity-60">
               sort by
             </button>
           }
@@ -37,10 +31,10 @@ export function SortSheet() {
         <SheetContent
           side="top"
           showCloseButton={true}
-          className="data-[side=top]:h-dvh data-[side=top]:max-h-dvh w-screen min-h-0 border-none bg-white p-0 duration-500 focus:outline-none flex flex-col"
+          className="flex min-h-0 w-screen flex-col border-none bg-white p-0 duration-500 focus:outline-none data-[side=top]:h-dvh data-[side=top]:max-h-dvh"
         >
           <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto overscroll-contain px-4 pt-20 pb-[max(1.5rem,env(safe-area-inset-bottom,0px))] sm:px-6 sm:pt-24">
-            <div className="flex w-full max-w-4xl flex-col items-center space-y-6 select-none sm:space-y-10 md:space-y-14 lg:space-y-16 -translate-y-3 sm:-translate-y-5">
+            <div className="flex w-full max-w-4xl -translate-y-3 flex-col items-center space-y-6 select-none sm:-translate-y-5 sm:space-y-10 md:space-y-14 lg:space-y-16">
               <Button
                 variant="ghost"
                 onClick={() => handleSelectRole("director")}
