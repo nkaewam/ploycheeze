@@ -86,8 +86,8 @@ export const works: Work[] = [
     images: [
       blumoFeaturedImg,
       blumo1Img,
-      blumo3Img,
       blumo2Img,
+      blumo3Img,
       blumo4Img,
       blumo5Img,
       blumo6Img,
