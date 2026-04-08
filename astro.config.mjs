@@ -14,6 +14,9 @@ export default defineConfig({
       external: ["css-tree"],
     },
   },
+  server: {
+    allowedHosts: ["packaging-pressed-events-dried.trycloudflare.com"],
+  },
   integrations: [react()],
   adapter: cloudflare({
     imageService: "compile",

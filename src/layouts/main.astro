@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = "Ploycheeze | Director & Cinematographer",
-  description = "Portfolio of Ploycheeze - Director, Cinematographer, and Photographer specializing in music videos, commercials, and visual storytelling.",
+  title = "Ploycheeze",
+  description = "Selected works of Ploycheeze - A multidisciplinary visual storyteller",
   image = "",
 } = Astro.props
 
@@ -22,7 +22,10 @@ const canonicalURL = new URL(
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Primary Meta Tags -->
@@ -47,7 +50,7 @@ const canonicalURL = new URL(
 
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body>
+  <body class="min-h-[-webkit-fill-available] min-h-screen">
     <slot />
   </body>
 </html>

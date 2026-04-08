@@ -49,21 +49,22 @@ export function WorkCard({ workId, index }: WorkCardProps) {
     }
   }
 
-  console.log(work.title)
-
   const selectedTag = useStore(selectedRole)
   const isSelected = !selectedTag || work.tags.includes(selectedTag)
 
   return (
     <div
-      className={`timeline-item group relative w-auto flex-none origin-center flex-col items-center justify-center cursor-pointer ${work.contentType === "photo" ? "has-sub-images" : "has-video"
-        } ${isSelected ? "flex" : "hidden"}`}
+      className={`timeline-item group relative w-auto flex-none origin-center cursor-pointer flex-col items-center justify-center ${
+        work.contentType === "photo" ? "has-sub-images" : "has-video"
+      } ${isSelected ? "flex" : "hidden"}`}
       data-index={index}
       data-type={work.contentType}
       data-vimeo-id={work.contentType === "video" ? work.vimeoId : undefined}
       style={
         work.contentType === "photo"
-          ? ({ "--sub-count": work.previewImages.length } as React.CSSProperties)
+          ? ({
+              "--sub-count": work.previewImages.length,
+            } as React.CSSProperties)
           : {}
       }
       onClick={handleClick}
@@ -72,7 +73,7 @@ export function WorkCard({ workId, index }: WorkCardProps) {
         <img
           src={work.image.src}
           alt={work.id}
-          className="main-image max-h-[40vh] w-auto object-contain filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
+          className="main-image md:max-w-auto max-h-[35vh] w-auto max-w-[70vw] object-contain filter transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] sm:max-h-[40vh]"
         />
         {work.contentType === "photo" && (
           <div className="sub-images-container absolute inset-0 flex items-center justify-center">
@@ -93,28 +94,26 @@ export function WorkCard({ workId, index }: WorkCardProps) {
       </div>
 
       <div
-        className="text-container pointer-events-none absolute top-full mt-8 flex justify-between"
+        className="text-container pointer-events-none absolute top-full mt-6 flex flex-col items-center gap-1 sm:mt-8 sm:flex-row sm:items-start sm:justify-between sm:gap-0"
         style={{ width: "100%", left: "0%" }}
       >
         <div
-          className="info-left text-left transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
+          className="info-left text-center transition-all duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] sm:text-left"
           style={{ opacity: 0, transform: "translate3d(0, -20px, 0)" }}
         >
-          <h3 className="font-normal tracking-tight text-2xl">
+          <h3 className="text-xl font-normal tracking-tight sm:text-2xl">
             {work.title}
           </h3>
           {work.subtitle && (
-            <div className="text-sm text-foreground/80">
-              {work.subtitle}
-            </div>
+            <div className="text-sm text-foreground/80">{work.subtitle}</div>
           )}
         </div>
         <div
-          className="info-right text-right transition-all delay-100 duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]"
+          className="info-right text-center transition-all delay-100 duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)] sm:text-right"
           style={{ opacity: 0, transform: "translate3d(0, -20px, 0)" }}
         >
           {work.role && (
-            <p className="pt-1 text-lg text-muted-foreground lowercase">
+            <p className="text-base text-muted-foreground lowercase sm:pt-1 sm:text-lg">
               {work.role}
             </p>
           )}
