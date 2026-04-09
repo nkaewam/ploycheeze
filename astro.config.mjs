@@ -14,6 +14,7 @@ export default defineConfig({
       external: ["css-tree"],
     },
   },
+  site: "https://ploycheeze.com",
   server: {
     allowedHosts: ["packaging-pressed-events-dried.trycloudflare.com"],
   },
